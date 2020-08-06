@@ -1,2 +1,5 @@
 # GroceryListReferencer
-#Sameh Abedin
+# Sameh Abedin
+# Anthony Goncharenko
+# Ritik Ghanshani
+# Kevin Karnani
