@@ -3,7 +3,7 @@
 Sarno.
 3. Tasks Planned:
     - Kevin: Learn React, Setup Linting, Create Homepage
-    - Anthony:
+    - Anthony: Learn React, Learn Firebase, set up firebase, set up react 
     - Ritik:
     - Sameh:
     - Fiona:
@@ -13,18 +13,22 @@ Sarno.
         - Setup Linting: Accomplished, not committed to master branch yet, done in my own branch, commit SHA: 7c23072
         - Create Homepage: Partially done, this is because I did not anticipate having to pick a UI framework, had to do research.
     - Anthony:
+        -Learn React: Still working on that
+        -Learn Firebase: Still working on that
+        -set up firebase: done
+        -set up react: done
     - Ritik:
     - Sameh:
     - Fiona:
 5. Upcoming Tasks:
     - Kevin: Finish Homepage, Setup Shopping Cart, few other pages.
-    - Anthony:
+    - Anthony: Work on Homepage, Work on the API
     - Ritik:
     - Sameh:
     - Fiona:
 6. Potential Obstacles:
     - Kevin: Final Project Presentation this week
-    - Anthony:
+    - Anthony: Don't know so far, probably the final project presentation
     - Ritik:
     - Sameh:
     - Fiona:
