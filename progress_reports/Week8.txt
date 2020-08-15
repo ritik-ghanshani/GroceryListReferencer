@@ -1,0 +1,30 @@
+1. Group 9
+2. Ritik Ghanshani, Kev Karnani, Sameh Abedin, Anthony Goncharenko, and Fiona
+Sarno.
+3. Tasks Planned:
+    - Kevin: Learn React, Setup Linting, Create Homepage
+    - Anthony:
+    - Ritik:
+    - Sameh:
+    - Fiona:
+4. Tasks Accomplished:
+    - Kevin:
+        - Learn React: More or less accomplished, will be doing this as we go
+        - Setup Linting: Accomplished, not committed to master branch yet, done in my own branch, commit SHA: 7c23072
+        - Create Homepage: Partially done, this is because I did not anticipate having to pick a UI framework, had to do research.
+    - Anthony:
+    - Ritik:
+    - Sameh:
+    - Fiona:
+5. Upcoming Tasks:
+    - Kevin: Finish Homepage, Setup Shopping Cart, few other pages.
+    - Anthony:
+    - Ritik:
+    - Sameh:
+    - Fiona:
+6. Potential Obstacles:
+    - Kevin: Final Project Presentation this week
+    - Anthony:
+    - Ritik:
+    - Sameh:
+    - Fiona:
