@@ -4,7 +4,7 @@ Sarno.
 3. Tasks Planned:
     - Kevin: Learn React, Setup Linting, Create Homepage
     - Anthony: Learn React, Learn Firebase, set up firebase, set up react 
-    - Ritik:
+    - Ritik: Learn React, Learn Firebase, set up react, host on firebase
     - Sameh: Learn Firebase, begin creating server side logic, create firebase project and database
     - Fiona:
 4. Tasks Accomplished:
@@ -18,6 +18,10 @@ Sarno.
         -set up firebase: done
         -set up react: done
     - Ritik:
+        -Learn React: Watched a YouTube tutorial
+        -Learn Firebase: Done
+        -set up react: Done
+        -host on firebase: Done
     - Sameh:
         - Learn Firebase: Still working on that
         - Created Firebase Project, test database, and firebase configuration
@@ -27,12 +31,12 @@ Sarno.
 5. Upcoming Tasks:
     - Kevin: Finish Homepage, Setup Shopping Cart, few other pages.
     - Anthony: Work on Homepage, Work on the API
-    - Ritik:
+    - Ritik: Upgrade hosting, work on front end and business logic
     - Sameh: Get better understanding of how React works with Firebase, create express routes in server.js, figure out deploying works
     - Fiona:
 6. Potential Obstacles:
     - Kevin: Final Project Presentation this week
     - Anthony: Don't know so far, probably the final project presentation
-    - Ritik:
+    - Ritik: Don't know what to do or what my role is yet, working on it
     - Sameh: I'm worried Firebase might eventually make us pay for something (storage/hosting)
     - Fiona:
