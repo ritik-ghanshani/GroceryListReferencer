@@ -36,7 +36,7 @@ Sarno.
     - Anthony: Work on Homepage, Work on the API
     - Ritik: Upgrade hosting, work on front end and business logic
     - Sameh: Get better understanding of how React works with Firebase, create express routes in server.js, figure out deploying works
-    - Fiona: Finish learning GIT and FIREbase as to more efficiently and effectively write server.
+    - Fiona: Finish learning GIT and Firebase as to more efficiently and effectively write server.
 6. Potential Obstacles:
     - Kevin: Final Project Presentation this week
     - Anthony: Don't know so far, probably the final project presentation
