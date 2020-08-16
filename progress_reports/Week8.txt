@@ -6,7 +6,7 @@ Sarno.
     - Anthony: Learn React, Learn Firebase, set up firebase, set up react 
     - Ritik: Learn React, Learn Firebase, set up react, host on firebase
     - Sameh: Learn Firebase, begin creating server side logic, create firebase project and database
-    - Fiona:
+    - Fiona: Learn Git, Learn Firebase, begin creating server side logic.
 4. Tasks Accomplished:
     - Kevin:
         - Learn React: More or less accomplished, will be doing this as we go
@@ -28,15 +28,18 @@ Sarno.
         - Created test App.js file that uses react and firebase to update local webpage in real time (w/o) refreshing, commmit SHA: 2d4bc90
         - Created Server.js file that can read from firebase database (not in real time) commit SHA: 92364fb 
     - Fiona:
+        - Learn Git: Still working on.
+        - Learn Firebase: Still working on.
+        - Create server side logic: determined which GET and POST commands will be necessary to share necessary information.
 5. Upcoming Tasks:
     - Kevin: Finish Homepage, Setup Shopping Cart, few other pages.
     - Anthony: Work on Homepage, Work on the API
     - Ritik: Upgrade hosting, work on front end and business logic
     - Sameh: Get better understanding of how React works with Firebase, create express routes in server.js, figure out deploying works
-    - Fiona:
+    - Fiona: Finish learning GIT and FIREbase as to more efficiently and effectively write server.
 6. Potential Obstacles:
     - Kevin: Final Project Presentation this week
     - Anthony: Don't know so far, probably the final project presentation
     - Ritik: Don't know what to do or what my role is yet, working on it
     - Sameh: I'm worried Firebase might eventually make us pay for something (storage/hosting)
-    - Fiona:
+    - Fiona: Since we were going to use two databases, we might have to do some creative configuring in order to not get charged by Firebase.
