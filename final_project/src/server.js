@@ -22,11 +22,24 @@ const config = {
 };
 
 firebase.initializeApp(config);
-
-// app.get("/newUser", function(req,res) {
+//all will return json objects
+//app.post("/newUser"
+// node modules crypto to create unique ids
+// app.get("/getUser", function(req,res) {
+// query string
+// return names of already existing grocuery lists
 // app.get("/retrieveGroceryList", 
+// query string
+// return specific grocery list based on name
 // app.post("/createGroceryList", 
+// body of fetch
 // app.get("/checkAvail"
+// query string
+// app.delete("/deleteList
+// query string
+// app.put?(updateList)
+// fetch body 
+// use date stamp to keep track of grocery list
 
 var ref =  firebase.database().ref();
 ref.once("value").then( function(snapshot) {
