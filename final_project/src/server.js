@@ -18,11 +18,11 @@ const config = {
     messagingSenderId: "935434602441",
     appId: "1:935434602441:web:a57456a42b9237ee600a18",
     measurementId: "G-G0QD9N03RC"
-
 };
 
 firebase.initializeApp(config);
 // all will return json objects
+// authentication? extra, possible at the end
 // Normal JSON Object =  json object client sends server is { product : quantity} ({key:value})
 // node modules crypto to create unique ids
 //
@@ -43,7 +43,9 @@ firebase.initializeApp(config);
 // send status for server res
 //
 // app.get("/checkAvail?user=xxx&groceryList=yyy"
-// return json object {product: true/false} based on availability
+// return json object {product:[ true/false, numAvailableInGroceryStore]} based on availability
+// maybe how much is in store?
+//
 //
 //
 // app.delete("/deleteList?user=xxx&groceryList=yyy"
