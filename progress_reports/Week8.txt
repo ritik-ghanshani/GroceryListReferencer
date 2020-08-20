@@ -1,0 +1,45 @@
+1. Group 9
+2. Ritik Ghanshani, Kev Karnani, Sameh Abedin, Anthony Goncharenko, and Fiona
+Sarno.
+3. Tasks Planned:
+    - Kevin: Learn React, Setup Linting, Create Homepage
+    - Anthony: Learn React, Learn Firebase, set up firebase, set up react 
+    - Ritik: Learn React, Learn Firebase, set up react, host on firebase
+    - Sameh: Learn Firebase, begin creating server side logic, create firebase project and database
+    - Fiona: Learn Git, Learn Firebase, begin creating server side logic.
+4. Tasks Accomplished:
+    - Kevin:
+        - Learn React: More or less accomplished, will be doing this as we go
+        - Setup Linting: Accomplished, not committed to master branch yet, done in my own branch, commit SHA: 7c23072
+        - Create Homepage: Partially done, this is because I did not anticipate having to pick a UI framework, had to do research.
+    - Anthony:
+        -Learn React: Still working on that
+        -Learn Firebase: Still working on that
+        -set up firebase: done
+        -set up react: done
+    - Ritik:
+        -Learn React: Watched a YouTube tutorial
+        -Learn Firebase: Done
+        -set up react: Done
+        -host on firebase: Done
+    - Sameh:
+        - Learn Firebase: Still working on that
+        - Created Firebase Project, test database, and firebase configuration
+        - Created test App.js file that uses react and firebase to update local webpage in real time (w/o) refreshing, commmit SHA: 2d4bc90
+        - Created Server.js file that can read from firebase database (not in real time) commit SHA: 92364fb 
+    - Fiona:
+        - Learn Git: Still working on.
+        - Learn Firebase: Still working on.
+        - Create server side logic: determined which GET and POST commands will be necessary to share necessary information.
+5. Upcoming Tasks:
+    - Kevin: Finish Homepage, Setup Shopping Cart, few other pages.
+    - Anthony: Work on Homepage, Work on the API
+    - Ritik: Upgrade hosting, work on front end and business logic
+    - Sameh: Get better understanding of how React works with Firebase, create express routes in server.js, figure out deploying works
+    - Fiona: Finish learning GIT and Firebase as to more efficiently and effectively write server.
+6. Potential Obstacles:
+    - Kevin: Final Project Presentation this week
+    - Anthony: Don't know so far, probably the final project presentation
+    - Ritik: Don't know what to do or what my role is yet, working on it
+    - Sameh: I'm worried Firebase might eventually make us pay for something (storage/hosting)
+    - Fiona: Since we were going to use two databases, we might have to do some creative configuring in order to not get charged by Firebase.
