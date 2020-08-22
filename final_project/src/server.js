@@ -25,9 +25,10 @@ firebase.initializeApp(config);
 // authentication? extra, possible at the end
 // Normal JSON Object =  json object client sends server is { product : quantity} ({key:value})
 // node modules crypto to create unique ids
-// newUser?user=xxx
+// ROUTE: /newUser?user=xxx
+
 app.post("/newUser", function(req,res) {
-    username = req.query.user;
+    let username = req.query.user;
     if (!username) {
         console.log("no username provided");
         res.status(400);
@@ -70,12 +71,65 @@ app.post("/newUser", function(req,res) {
 // returns Normal JSON Object
 //
 //
-// app.post("/createGroceryList?user=xxx&groceryList=yyy", 
+// ROUTE: "/createGroceryList?user=xxx&groceryList=yyy"
 // body of fetch send Normal JSON Object
 // send status for server res
+
 app.post("/createGroceryList", function(req,res) {
-    username = req.query.user;
+    let username = req.query.user;
+    let groceryListName = req.query.groceryList;
+    let groceryListContents = req.body;
+    let listOfParams = [username,groceryListName, groceryListContents];
+    let listOfParamsString = ["User Name","Grocery List Name", "Grocery List Contents" ];
+    for (let i=0; i<listOfParams.length; i++) {
+        if (!checkParameter(listOfParams[i], listOfParamsString[i], res))
+            return;
+    }
+
+    var userRef = firebase.database().ref("users");
+    userRef.orderByKey().equalTo(username).once("value", function(snapshot) { //checks user exists
+        if (snapshot.child(username).exists()) {
+            let groceryListNameRef = userRef.child(username).child(groceryListName);
+            groceryListNameRef.transaction( function(currentData) {  
+                if (currentData == null) {
+                    return groceryListContents
+                }
+                else { //make sure that new grocery list isn't overwriting old grocery list
+                    console.log("grocery list, " + groceryListName + " already exists");
+                    return;
+                }
+            }, function(error,committed,snapshot) {
+                if (error) {
+                res.status(500);
+                res.json({"error" : "Unknown Internal Server Error"});
+                }
+                else if ( !committed ) {
+                res.status(501)
+                res.json({"error" : "grocery list '" + groceryListName + "' already exists"});
+                }
+                else {
+                    console.log(groceryListName + " was added!");
+                    res.send();
+                }
+            })
+        }
+        else {
+            res.status(501);
+            res.json({"error" : "User does not exist"});
+        }
+    });
 })
+
+function checkParameter(param, paramString, res) {
+    if( !param || Object.keys(param).length === 0 ) {
+        console.log("No " + paramString + " provided");
+        res.status(400);
+        res.json({ "error": "No " + paramString + " provided" });
+        return false
+    } 
+    else
+        return true;
+}
 //
 // app.get("/checkAvail?user=xxx&groceryList=yyy"
 // return json object {product:[ true/false, numAvailableInGroceryStore]} based on availability
