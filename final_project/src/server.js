@@ -188,35 +188,42 @@ app.delete("/deleteList", function (req,res) {
     var userRef = firebase.database().ref("users");
     userRef.once("value", function(snapshot) { //checks user exists
 
-        if (snapshot.child(username).exists()) {
-            let groceryListSnapshot = snapshot.child(username).child(groceryListName);
-
-            if (groceryListSnapshot.exists()) {
-                userNameRef = userRef.child(username);
-                listRef = userNameRef.child(groceryListName);
-                listRef.remove()
-                    .then( function() {
-                        console.log("Sucessfully removed");
-                        res.send();
-                    })
-                    .catch( function(error) {
-                        console.log("Remove failed: " + error.message);
-                        res.json(error.message);
-                    })
-            } 
-            else {
-                res.status(501);
-                res.json({"error" : "Grocery List, " + groceryListName + ", does not exist"})
-            }
-        }
-        else {
+        if (!snapshot.child(username).exists()) {
             res.status(501);
             res.json({"error" : "User, " + username + ", does not exist"})
+            return;
         }
-    })
 
+        let groceryListSnapshot = snapshot.child(username).child(groceryListName);
+
+        if (!groceryListSnapshot.exists()) {
+            res.status(501);
+            res.json({"error" : "Grocery List, " + groceryListName + ", does not exist"});
+            return;
+        }
+
+        let userNameRef = userRef.child(username);
+        let listRef = userNameRef.child(groceryListName);
+        listRef.remove()
+            .then( function() {
+                console.log("Sucessfully removed");
+                userNameRef.once('value').then(function(snapshot) {
+                    if (!snapshot.val())   //this feels really hacky, maybe Fee can come up with a better way
+                         userNameRef.set("PlaceHolderList");
+                     
+                })
+                res.send();
+            })
+            .catch( function(error) {
+                console.log("Remove failed: " + error.message);
+                res.json(error.message);
+            })
+      
+            
         
+    })
 });
+
 //
 // app.put("/updateList?user=xxx&groceryList=yyy")
 // fetch body Normal JSON Object
