@@ -31,7 +31,8 @@ app.post("/newUser", function(req,res) {
     if (!username) {
         console.log("no username provided");
         res.status(400);
-        res.json("error" : "No username provided");
+        res.json({ "error" : "No username provided" });
+        return;
     }
     var userRef = firebase.database().ref('users/' + username);
     userRef.transaction( function(currentData) {
@@ -57,7 +58,8 @@ app.post("/newUser", function(req,res) {
         }
     })
     console.log(username)
-})
+});
+
 //
 // app.get("/getUserLists?user=xxx", function(req,res) {
 // return status
