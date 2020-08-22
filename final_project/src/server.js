@@ -175,6 +175,48 @@ function checkParameter(param, paramString, res) {
 //
 // app.delete("/deleteList?user=xxx&groceryList=yyy"
 // send status back
+// PROBLEM: IF A USER HAS 1 GROCERY LIST, THE USER WILL BE DELETED AS WELL
+app.delete("/deleteList", function (req,res) {
+    let username = req.query.user;
+    let groceryListName = req.query.groceryList;
+    let listOfParams = [username,groceryListName];
+    let listOfParamsString = ["User Name","Grocery List Name"];
+    for (let i=0; i<listOfParams.length; i++) {
+        if (!checkParameter(listOfParams[i], listOfParamsString[i], res))
+            return;
+    }
+    var userRef = firebase.database().ref("users");
+    userRef.once("value", function(snapshot) { //checks user exists
+
+        if (snapshot.child(username).exists()) {
+            let groceryListSnapshot = snapshot.child(username).child(groceryListName);
+
+            if (groceryListSnapshot.exists()) {
+                userNameRef = userRef.child(username);
+                listRef = userNameRef.child(groceryListName);
+                listRef.remove()
+                    .then( function() {
+                        console.log("Sucessfully removed");
+                        res.send();
+                    })
+                    .catch( function(error) {
+                        console.log("Remove failed: " + error.message);
+                        res.json(error.message);
+                    })
+            } 
+            else {
+                res.status(501);
+                res.json({"error" : "Grocery List, " + groceryListName + ", does not exist"})
+            }
+        }
+        else {
+            res.status(501);
+            res.json({"error" : "User, " + username + ", does not exist"})
+        }
+    })
+
+        
+});
 //
 // app.put("/updateList?user=xxx&groceryList=yyy")
 // fetch body Normal JSON Object
