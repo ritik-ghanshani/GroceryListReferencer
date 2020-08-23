@@ -3,13 +3,13 @@
 Sarno.
 3. Tasks Planned:
     - Kevin: 
-    - Anthony:
+    - Anthony: Work on the homepage 
     - Ritik:
     - Sameh: Understand Firebase better, create server-side logic, create express routes in server.js, figure out how deploying works
     - Fiona:
 4. Tasks Accomplished:
     - Kevin:
-    - Anthony:
+    - Anthony: work on the homepage
     - Ritik:
     - Sameh:
         - Understand Firebase better: Able to read and write from Firebase database and use many of the functions in the database api
@@ -25,7 +25,7 @@ Sarno.
     - Fiona:
 6. Potential Obstacles:
     - Kevin: Final Project Presentation this week
-    - Anthony: Don't know so far, probably the final project presentation
+    - Anthony: Nothing that I am aware of
     - Ritik:
     - Sameh: Integration of front-end React with express back-end might pose issues
     - Fiona:
