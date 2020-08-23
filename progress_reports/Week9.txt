@@ -6,7 +6,7 @@ Sarno.
     - Anthony: Work on the homepage 
     - Ritik:
     - Sameh: Understand Firebase better, create server-side logic, create express routes in server.js, figure out how deploying works
-    - Fiona:
+    - Fiona: Finish learning GIT and Firebase as to more efficiently and effectively write server, and design backend
 4. Tasks Accomplished:
     - Kevin: Talked with the group, realized we needed a signin page, delayed other tasks
     - Anthony: work on the homepage
@@ -16,16 +16,16 @@ Sarno.
         - Figuring out how deploying works: Firebase has a cloud function that deals with https requests, and can be used as a wrapper over express
         - Created express routes for /newUser, /createGroceryList, /deleteList, and /retrieveGroceryList in server.js in my branch
         - Collaborated with group to determine how server will communicate with client 
-    - Fiona:
+    - Fiona: Successfully designed the back end handelers and determined how data will be sent between back end and front end
 5. Upcoming Tasks:
     - Kevin: work on the signin page, make API calls to add to database, set up shopping cart
     - Anthony: Work on Homepage, Work on the API
     - Ritik:
     - Sameh: Get better understanding of how React works with Firebase, work on remaining express routes (3 left), and try deploying
-    - Fiona:
+    - Fiona: Finish the handelers on the back end
 6. Potential Obstacles:
     - Kevin: Another final presentation
     - Anthony: Nothing that I am aware of
     - Ritik:
     - Sameh: Integration of front-end React with express back-end might pose issues
-    - Fiona:
+    - Fiona: None
