@@ -2,13 +2,13 @@
 2. Ritik Ghanshani, Kev Karnani, Sameh Abedin, Anthony Goncharenko, and Fiona
 Sarno.
 3. Tasks Planned:
-    - Kevin: 
+    - Kevin: Finish homepage, work on the shopping cart, other pages
     - Anthony: Work on the homepage 
     - Ritik:
     - Sameh: Understand Firebase better, create server-side logic, create express routes in server.js, figure out how deploying works
     - Fiona:
 4. Tasks Accomplished:
-    - Kevin:
+    - Kevin: Talked with the group, realized we needed a signin page, delayed other tasks
     - Anthony: work on the homepage
     - Ritik:
     - Sameh:
@@ -18,13 +18,13 @@ Sarno.
         - Collaborated with group to determine how server will communicate with client 
     - Fiona:
 5. Upcoming Tasks:
-    - Kevin: Finish Homepage, Setup Shopping Cart, few other pages.
+    - Kevin: work on the signin page, make API calls to add to database, set up shopping cart
     - Anthony: Work on Homepage, Work on the API
     - Ritik:
     - Sameh: Get better understanding of how React works with Firebase, work on remaining express routes (3 left), and try deploying
     - Fiona:
 6. Potential Obstacles:
-    - Kevin: Final Project Presentation this week
+    - Kevin: Another final presentation
     - Anthony: Nothing that I am aware of
     - Ritik:
     - Sameh: Integration of front-end React with express back-end might pose issues
