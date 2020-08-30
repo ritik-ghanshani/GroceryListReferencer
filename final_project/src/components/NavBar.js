@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Navbar, Nav } from 'react-bootstrap';
+import { Dropdown, Navbar, Nav } from 'react-bootstrap';
 import { IconContext } from 'react-icons';
-import { FaShoppingCart } from 'react-icons/fa';
+import { FaUserAlt } from 'react-icons/fa';
 
 export class NavBar extends Component {
     render() {
@@ -18,16 +18,26 @@ export class NavBar extends Component {
                         <Nav.Link className="d-inline p-2">About Us</Nav.Link>
                         <Nav.Link className="d-inline p-2">Contact</Nav.Link>
                     </Nav>
-                    <IconContext.Provider
-                        value={{
-                            color: 'white',
-                            className: 'global-class-name',
-                        }}
-                    >
-                        <div>
-                            <FaShoppingCart />
-                        </div>
-                    </IconContext.Provider>
+                    <Dropdown>
+                        <Dropdown.Toggle variant="dark" id="dropdown-basic">
+                            <IconContext.Provider
+                                value={{
+                                    color: 'white',
+                                    className: 'global-class-name',
+                                }}
+                            >
+                                <span>
+                                    <FaUserAlt />
+                                </span>
+                            </IconContext.Provider>{' '}
+                            John Doe
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu>
+                            <Dropdown.Item>Add List</Dropdown.Item>
+                            <Dropdown.Item>View Lists</Dropdown.Item>
+                            <Dropdown.Item>Logout</Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
                 </Navbar.Collapse>
             </Navbar>
         );
