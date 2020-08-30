@@ -1,0 +1,34 @@
+1. Group 9
+2. Ritik Ghanshani, Kev Karnani, Sameh Abedin, Anthony Goncharenko, and Fiona
+Sarno.
+3. Tasks Planned:
+    - Kevin: Finish homepage, work on the shopping cart, other pages
+    - Anthony: Work on the homepage 
+    - Ritik:Work on homepage, deploy webapp
+    - Sameh: Understand Firebase better, figure out how deploying works
+    - Fiona: Finish learning GIT and Firebase as to more efficiently and effectively write server, and design backend
+4. Tasks Accomplished:
+    - Kevin: Talked with the group, realized we needed a signin page, delayed other tasks
+    - Anthony: work on the homepage
+    - Ritik: 
+        - Worked on the front-end 
+        - Participated in weekly team discussions
+        - Deployed webapp to firebase
+        - Set up auto deploy
+    - Sameh:
+        - Made server code compatible with firebase cloud functions and hosting. 
+        - Used Firebase Hosting to create a local emulation.
+        - Demoed Existing Server Side code with group members.
+    - Fiona: Successfully designed the back end handelers and determined how data will be sent between back end and front end
+5. Upcoming Tasks:
+    - Kevin: work on the signin page, make API calls to add to database, set up shopping cart
+    - Anthony: Work on Homepage, Work on the API
+    - Ritik: Finish homepage, start work on the list and login functionalities
+    - Sameh: Integrate server and client side.
+    - Fiona: Finish the handelers on the back end
+6. Potential Obstacles:
+    - Kevin: Another final presentation
+    - Anthony: Nothing that I am aware of
+    - Ritik: Busy week due to multiple final assignments, exams, co-op formalities, and other things. 
+    - Sameh: Integration of front-end React with express back-end might pose issues
+    - Fiona: None
