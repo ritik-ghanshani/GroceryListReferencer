@@ -31,7 +31,7 @@ export class Login extends Component {
             }, {withCredentials: true}
         ).then(response => {
             if (response.data.logged_in) {
-                this.props.handleSuccesAuth(response.data);
+                this.props.validateSuccesAuth(response.data);
             }
         })
         .catch(error => {

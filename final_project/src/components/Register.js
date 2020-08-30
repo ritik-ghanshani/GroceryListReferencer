@@ -12,17 +12,17 @@ export class Register extends Component {
           registrationErrors: ""
         };
     
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleChange = this.handleChange.bind(this);
+        this.validateSubmit = this.validateSubmit.bind(this);
+        this.validateChange = this.validateChange.bind(this);
       }
     
-      handleChange(event) {
+      validateChange(event) {
         this.setState({
           [event.target.name]: event.target.value
         });
       }
     
-      handleSubmit(event) {
+      validateSubmit(event) {
         const { email, password, password_confirmation } = this.state;
     
         axios
@@ -37,7 +37,7 @@ export class Register extends Component {
           )
           .then(response => {
             if (response.data.status === "created") {
-              this.props.handleSuccessfulAuth(response.data);
+              this.props.validateSuccessfulAuth(response.data);
             }
           })
           .catch(error => {
@@ -49,13 +49,13 @@ export class Register extends Component {
     render() {
         return (
 <div>
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.validateSubmit}>
             <input
                 type="email"
                 name="email"
                 placeholder="Email"
                 value={this.state.email}
-                onChange={this.handleChange}
+                onChange={this.validateChange}
                 autoFocus
                 required
             />
@@ -65,7 +65,7 @@ export class Register extends Component {
                 name="password"
                 placeholder="Password"
                 value={this.state.password}
-                onChange={this.handleChange}
+                onChange={this.validateChange}
                 required
             />
 
@@ -74,7 +74,7 @@ export class Register extends Component {
                 name="password_confirmation"
                 placeholder="Password confirmation"
                 value={this.state.password_confirmation}
-                onChange={this.handleChange}
+                onChange={this.validateChange}
                 required
             />
 
