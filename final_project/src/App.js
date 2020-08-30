@@ -5,9 +5,9 @@ import {Login} from './components/Login';
 //import {BrowserRouter, Route, Switch} from 'react-router-dom';
 
 function App() {
+    
     return (
-        //<div><NavBar /></div>
-        <div><Login/></div>
+        <div className="App"><Login/></div>
     );
 }
 

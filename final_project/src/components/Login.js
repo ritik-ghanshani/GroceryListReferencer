@@ -1,11 +1,11 @@
-import React from "react";
+import React, { Component } from "react";
 import axios from 'axios';
 
-export class Login extends React.Component {
+export class Login extends Component {
     constructor(props) {
         super(props);
     this.state = {
-        username: "",
+        email: "",
         password: "",
         loginErrors:""
     };
@@ -20,12 +20,12 @@ export class Login extends React.Component {
     }
 
     validateSubmit(event){
-        const {username, password} = this.state;
+        const {email, password} = this.state;
         axios.post(
             "/userSubmit", //this name is tentative
             {
                 user: {
-                    username: username,
+                    email: email,
                     password: password
                 }
             }, {withCredentials: true}
@@ -48,9 +48,9 @@ export class Login extends React.Component {
                 <h1>Login Page</h1>           
                     <form>
                         <input type="text" 
-                        name="username"
-                        placeholder="Name"
-                        value={this.state.username}
+                        name="email"
+                        placeholder="Email"
+                        value={this.state.email}
                         onChange={this.validateChange}
                         required 
                         autoFocus
