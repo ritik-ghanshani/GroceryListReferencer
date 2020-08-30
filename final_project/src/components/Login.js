@@ -4,7 +4,6 @@ import axios from 'axios';
 export class Login extends React.Component {
     constructor(props) {
         super(props);
-    
     this.state = {
         username: "",
         password: "",
@@ -41,6 +40,7 @@ export class Login extends React.Component {
         event.preventDefault();
     }
     
+    
 
     render() {
             return (
@@ -64,7 +64,7 @@ export class Login extends React.Component {
                         required
                         />
                         <br/>
-                        <button type="submit">Login</button>
+                        <button type="submit" >Login</button>
                     </form>
                 </div>
             );
