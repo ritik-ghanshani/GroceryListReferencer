@@ -9,7 +9,7 @@ Sarno.
     - Fiona: Finish learning GIT and Firebase as to more efficiently and effectively write server, and design backend
 4. Tasks Accomplished:
     - Kevin: Talked with the group, realized we needed a signin page, delayed other tasks
-    - Anthony: work on the homepage
+    - Anthony: homepage
     - Ritik: 
         - Worked on the front-end 
         - Participated in weekly team discussions
