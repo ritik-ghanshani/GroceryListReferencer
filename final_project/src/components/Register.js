@@ -1,15 +1,15 @@
-import React, { Component } from 'react'
-import axios from "axios";
+import React, { Component } from 'react';
+import axios from 'axios';
 
 export class Register extends Component {
     constructor(props) {
         super(props);
-    
+
         this.state = {
-          email: "",
-          password: "",
-          password_confirmation: "",
-          registrationErrors: ""
+            email: '',
+            password: '',
+            password_confirmation: '',
+            registrationErrors: '',
         };
     
         this.validateSubmit = this.validateSubmit.bind(this);
@@ -18,13 +18,13 @@ export class Register extends Component {
     
       validateChange(event) {
         this.setState({
-          [event.target.name]: event.target.value
+            [event.target.name]: event.target.value,
         });
       }
     
       validateSubmit(event) {
         const { email, password, password_confirmation } = this.state;
-    
+
         axios
           .post("/register", {
               user: {
@@ -44,8 +44,8 @@ export class Register extends Component {
             console.log("registration error", error);
           });
         event.preventDefault();
-      }
-    
+    }
+
     render() {
         return (
 <div>
@@ -78,9 +78,9 @@ export class Register extends Component {
                 required
             />
 
-            <button type="submit">Register</button>
-        </form>
-      </div>
-        )
+                    <button type="submit">Register</button>
+                </form>
+            </div>
+        );
     }
 }
