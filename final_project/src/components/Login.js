@@ -5,7 +5,7 @@ export class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: '',
+            email: '',
             password: '',
             loginErrors: '',
         };
@@ -20,23 +20,17 @@ export class Login extends Component {
     }
 
     validateSubmit(event) {
-        const { username, password } = this.state;
+        const { email, password } = this.state;
         axios
             .post(
-                '/userSubmit',
+                '/userSubmit', //this name is tentative
                 {
                     user: {
-                        username: username,
+                        email: email,
                         password: password,
                     },
-                },
-                { withCredentials: true }
-            )
-            .then((response) => {
-                if (response.data.logged_in) {
-                    this.props.handleSuccesAuth(response.data);
                 }
-            })
+            )
             .catch((error) => {
                 console.log(`login error ${error}`);
             });
@@ -50,9 +44,9 @@ export class Login extends Component {
                 <form>
                     <input
                         type="text"
-                        name="username"
-                        placeholder="Name"
-                        value={this.state.username}
+                        name="email"
+                        placeholder="Email"
+                        value={this.state.email}
                         onChange={this.validateChange}
                         required
                         autoFocus
