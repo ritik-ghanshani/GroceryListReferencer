@@ -38,38 +38,54 @@ firebase.initializeApp(config);
 // node modules crypto to create unique ids
 // ROUTE: /newUser?user=xxx
 
-app.post("/newUser", function(req,res) {
-    let username = req.query.user;
-    if (!username) {
-        console.log("no username provided");
+app.post("/userSubmit", function(req,res) {
+    const email = req.body.user.email;
+    const password = req.body.user.password;
+    if (!email || !password) {
+        console.log("no email or password provided");
         res.status(400);
-        res.json({ "error" : "No username provided" });
+        res.json({ "error" : "No email or password provided" });
         return;
     }
-    var userRef = firebase.database().ref('users/' + username);
-    userRef.transaction( function(currentData) {
-       if (currentData == null) {
-            return  "placeHolderGroceryList";
-       }
-       else  {
-           console.log("User already exists!")
-           return;
-       }
-    }, function(error,committed,snapshot) {
-        if (error) {
-           res.status(500);
-           res.json({"error" : "Unknown Internal Server Error"});
-        }
-        else if ( !committed ) {
-           res.status(501)
-           res.json({"error" : "Username already taken"});
-        }
-        else {
-            console.log(username + " was added!");
-            res.send();
-        }
-    })
-    console.log(username)
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+    .then(function() {
+        let emailParsed = email.split(".")[0];
+        let userRef = firebase.database().ref('users/' + emailParsed);
+        userRef.transaction( function(currentData) {
+            if (currentData == null) {
+                    return  "placeHolderGroceryList";
+            }
+            else  {
+                console.log("Email Account already exists in database!")
+                return;
+            }
+            }, function(error,committed,snapshot) {
+                if (error) {
+                    res.status(500);
+                    res.json({"error" : "Unknown Internal Server Error"});
+                }
+                /*
+                else if ( !committed ) {
+                    res.status(501)
+                    res.json({"error" : "Email already taken"});
+                }
+                */
+                else {
+                    console.log(emailParsed + " was added!");
+                    res.send();
+                }
+            })
+            console.log(emailParsed);
+            res.json( { "data" : { "logged_in" : true } } );
+
+    }).catch(function(error) {
+        // Handle Errors here.
+        let errorCode = error.code;
+        let errorMessage = error.message;
+        res.send( errorMessage );
+        console.log(errorCode);
+        console.log(errorMessage)
+    });
 });
 
 //
