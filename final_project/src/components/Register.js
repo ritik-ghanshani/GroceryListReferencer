@@ -47,8 +47,8 @@ export class Register extends Component {
 
     render() {
         return (
-<div>
-        <form onSubmit={this.validateSubmit}>
+            <div>
+            <form onSubmit={this.validateSubmit}>
             <input
                 type="email"
                 name="email"
@@ -77,7 +77,7 @@ export class Register extends Component {
                 required
             />
 
-                    <button type="submit">Register</button>
+                <button type="submit">Register</button>
                 </form>
             </div>
         );
