@@ -30,14 +30,15 @@ export class Login extends Component {
                         password: password,
                     },
                 }
-        ).then(response => {
-            if (response.data.logged_in) {
-                this.props.validateSuccesAuth(response.data);
-            }
-        })
-        .catch(error => {
-            console.log(`login error ${error}`);
-        });
+            )
+            .then((response) => {
+                if (response.data.logged_in) {
+                    this.props.validateSuccesAuth(response.data);
+                }
+            })
+            .catch((error) => {
+                console.log(`login error ${error}`);
+            });
         event.preventDefault();
     }
 
@@ -66,6 +67,8 @@ export class Login extends Component {
                     />
                     <br />
                     <button type="submit">Login</button>
+                    <br />
+                    <a href="/register">Sign Up</a>
                 </form>
             </div>
         );
