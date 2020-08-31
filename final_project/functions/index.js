@@ -38,9 +38,10 @@ firebase.initializeApp(config);
 // node modules crypto to create unique ids
 // ROUTE: /newUser?user=xxx
 
-app.post("/userSubmit", function(req,res) {
+app.post("/register", function(req,res) {
     const email = req.body.user.email;
     const password = req.body.user.password;
+    const passwordConfirmation = req.body.user["password_confirmation"];
     if (!email || !password) {
         console.log("no email or password provided");
         res.status(400);
@@ -76,7 +77,7 @@ app.post("/userSubmit", function(req,res) {
                 }
             })
             console.log(emailParsed);
-            res.json( { "data" : { "logged_in" : true } } );
+            res.json( { "data" : { "status" : "created" } } );
 
     }).catch(function(error) {
         // Handle Errors here.
