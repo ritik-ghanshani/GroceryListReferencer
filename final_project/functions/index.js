@@ -48,6 +48,12 @@ app.post("/register", function(req,res) {
         res.json({ "error" : "No email or password provided" });
         return;
     }
+    if ( password !== passwordConfirmation ) {
+        console.log("password does not match");
+        res.status(400);
+        res.send("password does not match");
+        return;
+    }
     firebase.auth().createUserWithEmailAndPassword(email, password)
     .then(function() {
         let emailParsed = email.split(".")[0];
