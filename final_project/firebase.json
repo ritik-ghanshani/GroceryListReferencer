@@ -8,7 +8,8 @@
     ],
     "rewrites": [{
         "source": "**",
-        "function": "app"
+        "function": "app",
+        "destination": "/index.html"
     }]
   },
   "functions": {
@@ -16,4 +17,3 @@
       "npm --prefix \"$RESOURCE_DIR\" run lint"
     ]
   }
-}
