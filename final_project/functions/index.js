@@ -50,8 +50,7 @@ app.post("/register", function(req,res) {
     }
     if ( password !== passwordConfirmation ) {
         console.log("password does not match");
-        res.status(400);
-        res.send("password does not match");
+        res.status(400).send("password does not match");
         return;
     }
     firebase.auth().createUserWithEmailAndPassword(email, password)
