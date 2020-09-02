@@ -24,7 +24,7 @@ export class Register extends Component {
     }
 
     validateSubmit(event) {
-        const { email, password, password_confirmation } = this.state;
+        const { email, password, password_confirmation } = this.state; 
 
         axios
             .post('/register', {
