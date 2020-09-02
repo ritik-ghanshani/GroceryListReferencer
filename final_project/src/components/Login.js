@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+import '../App.css';
 
 export class Login extends Component {
     constructor(props) {
@@ -44,8 +46,8 @@ export class Login extends Component {
 
     render() {
         return (
-            <div>
-                <h1>Login Page</h1>
+            <div id="modal" className="App">
+                <h1 id="header">Login Page</h1>
                 <form>
                     <input
                         type="text"
@@ -66,9 +68,19 @@ export class Login extends Component {
                         required
                     />
                     <br />
-                    <button type="submit">Login</button>
+                    <button id="registerlogin" type="submit">
+                        Login
+                    </button>
                     <br />
-                    <a href="/register">Sign Up</a>
+                    <p className="p">
+                        Need an Account?{' '}
+                        <Link className="loglink" to="/register">
+                            Signup
+                        </Link>
+                    </p>
+                    <p className="p">
+                        Forgot Password? <Link className="loglink">Reset</Link>
+                    </p>
                 </form>
             </div>
         );
