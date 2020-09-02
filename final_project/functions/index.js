@@ -12,7 +12,6 @@ const functions = require('firebase-functions');
 const express = require('express');
 const app = express();
 //const cors = require('cors');
-//const functions = require('firebase-functions');
 
 const firebase = require('firebase');
 const port = 3000;
@@ -45,12 +44,14 @@ app.post("/register", function(req,res) {
     if (!email || !password) {
         console.log("no email or password provided");
         res.status(400);
-        res.json({ "error" : "No email or password provided" });
+        //res.json({ "error" : "No email or password provided" });
+        res.send();
         return;
     }
     if ( password !== passwordConfirmation ) {
         console.log("password does not match");
-        res.status(400).send("password does not match");
+        res.status(400).send();
+            //.send( "password does not match");
         return;
     }
     firebase.auth().createUserWithEmailAndPassword(email, password)
@@ -68,7 +69,8 @@ app.post("/register", function(req,res) {
             }, function(error,committed,snapshot) {
                 if (error) {
                     res.status(500);
-                    res.json({"error" : "Unknown Internal Server Error"});
+                    //res.json({"error" : "Unknown Internal Server Error"});
+                    res.send();
                 }
                 /*
                 else if ( !committed ) {
@@ -76,23 +78,49 @@ app.post("/register", function(req,res) {
                     res.json({"error" : "Email already taken"});
                 }
                 */
-                else {
-                    console.log(emailParsed + " was added!");
-                    res.send();
-                }
             })
             console.log(emailParsed);
-            res.json( { "data" : { "status" : "created" } } );
+            res.json(  { "status" : "created" }  );
 
     }).catch(function(error) {
         // Handle Errors here.
         let errorCode = error.code;
         let errorMessage = error.message;
-        res.send( errorMessage );
+        res.status(501);
+        res.send();
         console.log(errorCode);
-        console.log(errorMessage)
+        console.log(errorMessage);
     });
 });
+
+app.post('/userSubmit', function(req,res) {
+    console.log(req);
+    const email = req.body.user.email;
+    const password = req.body.user.password;
+    if (!email || !password) {
+        console.log("no email or password provided");
+        res.status(400);
+        //res.json({ "error" : "No email or password provided" });
+        res.send();
+        return;
+    }
+    firebase.auth().signInWithEmailAndPassword(email, password)
+    .then( function() {
+        res.json( {"logged_in" : true});
+    })
+    .catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        console.log(errorMessage);
+        res.status(401).send()
+    });
+});
+
+
+
+
+
 
 //
 // app.get("/getUserLists?user=xxx", function(req,res) {
