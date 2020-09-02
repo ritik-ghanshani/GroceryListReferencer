@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { NavBar } from './NavBar';
 
 export class Register extends Component {
     constructor(props) {
@@ -28,9 +29,9 @@ export class Register extends Component {
         axios
             .post('/register', {
                 user: {
-                    email: email,
-                    password: password,
-                    password_confirmation: password_confirmation,
+                    email,
+                    password,
+                    password_confirmation,
                 },
             })
             .then((response) => {
@@ -47,6 +48,7 @@ export class Register extends Component {
     render() {
         return (
             <div>
+                <NavBar />
                 <form onSubmit={this.validateSubmit}>
                     <input
                         type="email"

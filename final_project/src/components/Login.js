@@ -22,15 +22,12 @@ export class Login extends Component {
     validateSubmit(event) {
         const { email, password } = this.state;
         axios
-            .post(
-                '/userSubmit', //this name is tentative
-                {
-                    user: {
-                        email: email,
-                        password: password,
-                    },
-                }
-            )
+            .post('/userSubmit', {
+                user: {
+                    email,
+                    password,
+                },
+            })
             .then((response) => {
                 if (response.data.logged_in) {
                     this.props.validateSuccesAuth(response.data);
