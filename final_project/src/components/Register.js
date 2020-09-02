@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { NavBar } from './NavBar';
+import { Link } from 'react-router-dom';
 
 export class Register extends Component {
     constructor(props) {
@@ -47,8 +47,8 @@ export class Register extends Component {
 
     render() {
         return (
-            <div>
-                <NavBar />
+            <div id="modal" className="App">
+                <h1 id="header">Registration Page</h1>
                 <form onSubmit={this.validateSubmit}>
                     <input
                         type="email"
@@ -78,9 +78,16 @@ export class Register extends Component {
                         required
                     />
                     <br />
-                    <button type="submit">Register</button>
+                    <button id="registerlogin" type="submit">
+                        Register
+                    </button>
                     <br />
-                    <a href="/">Login</a>
+                    <p className="p">
+                        Have an Account?{' '}
+                        <Link className="loglink" to="/">
+                            Login
+                        </Link>
+                    </p>
                 </form>
             </div>
         );
