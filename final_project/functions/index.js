@@ -78,7 +78,15 @@ app.post('/register', (req, res) => {
                     }
                 }
             );
+
             console.log(emailParsed);
+            let currentUser = firebase.auth().currentUser;
+            firebase
+                .auth()
+                .signOut()
+                .then( () => {
+                    console.log(currentUser.email, "has been signed out");
+                });
             res.json({ status: 'created' });
         })
         .catch((error) => {
@@ -143,18 +151,18 @@ firebase.auth().onAuthStateChanged((firebaseUser) => {
 
 
 app.get('/logged_in', (req, res) => {
+    let email = req.query.email;
     let currentUser = firebase.auth().currentUser;
     if (currentUser) {
-        let email = currentUser.email;
+        email = currentUser.email;
         console.log("current user is", email)
         res.json({"logged_in": true, email});
     }
     else {
         console.log("no user is logged in");
-        res.json({"logged_in": false});
+        res.json({"logged_in": false, email});
     }
     /*
-    const email = req.query.email;
     if (!email) {
         res.status(400);
         res.send()
@@ -200,7 +208,7 @@ app.delete('/logout', (req,res) => {
 
 //
 // app.get("/getUserLists?user=xxx", function(req,res) {
-// return status
+    // return stalet tus
 // return names of already existing grocery lists
 //
 // app.get("/retrieveGroceryList?user=xxx&groceryList=yyy",
