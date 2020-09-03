@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { NavBar } from './NavBar';
-// import Register from './Register';
-// import Login from './Login';
 
 export class Home extends Component {
     constructor(props) {
@@ -16,12 +14,18 @@ export class Home extends Component {
             .delete('/logout')
             .then((response) => {
                 this.props.validateLogout();
+                this.props.history.push('/');
             })
             .catch((error) => {
                 console.log('logout error', error);
             });
     }
     render() {
-        return <NavBar />;
+        return (
+            <NavBar
+                {...this.props}
+                validateLogoutClick={this.validateLogoutClick}
+            />
+        );
     }
 }

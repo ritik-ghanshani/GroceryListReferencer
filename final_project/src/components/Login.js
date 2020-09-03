@@ -37,7 +37,7 @@ export class Login extends Component {
                 }
             })
             .catch((error) => {
-                console.log(`login error: ${error}`);
+                this.setState({ loginErrors: error.response.data });
             });
         event.preventDefault();
     }
@@ -66,6 +66,7 @@ export class Login extends Component {
                         required
                     />
                     <br />
+                    <p className="p-error">{this.state.loginErrors}</p>
                     <button id="registerlogin" type="submit">
                         Login
                     </button>
