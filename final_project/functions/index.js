@@ -127,13 +127,20 @@ app.post('/passwordReset', function(req,res) {
 firebase.auth().onAuthStateChanged( function (firebaseUser) {
     if (firebaseUser) {
         console.log("user logged in ")
-        //console.log(firebaseUser)
+
+        console.log(firebaseUser.providerData);
     } 
     else {
         
         console.log("not logged in");
     }
 });
+
+app.delete('logout', function(req,res) {
+    //firebase.auth().
+
+});
+
 
 //app.post('/userLogout', function (req,res) {
 
@@ -158,7 +165,7 @@ app.get("/retrieveGroceryList", function(req,res) {
             return;
     }
     var userRef = firebase.database().ref("users");
-    userRef.once("value", function(snapshot) { //checks user exists
+    userRef.once("value", function(snapshot) { 
 
         if (snapshot.child(username).exists()) {
             let groceryListSnapshot = snapshot.child(username).child(groceryListName);
@@ -315,6 +322,24 @@ ref.once("value").then( function(snapshot) {
     console.log(name);
 });
 */
+
+// app.get("/getGroceryItems")
+// send back all items in grocery store
+app.get("/getGroceryItems", function (req,res) {
+    var groceryStoreRef = firebase.database().ref("groceryStore");
+    groceryStoreRef.once("value", function(snapshot) { 
+
+        if (snapshot.exists()) {
+            res.json(snapshot.val());
+        } 
+        else {
+            res.status(500);
+            res.send();
+        }
+    })
+});
+    
+
 
 /*
 app.listen(port, hostname, () => {
