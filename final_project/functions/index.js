@@ -94,7 +94,6 @@ app.post("/register", function(req,res) {
 });
 
 app.post('/userSubmit', function(req,res) {
-    console.log(req);
     const email = req.body.user.email;
     const password = req.body.user.password;
     if (!email || !password) {
@@ -118,8 +117,23 @@ app.post('/userSubmit', function(req,res) {
 });
 
 
+app.post('/passwordReset', function(req,res) {
+    const oldPassword = req.body.user["old_password"];
+    const newPassword = req.body.user["new_password"];
+});
 
 
+firebase.auth().onAuthStateChanged( function (firebaseUser) {
+    if (firebaseUser) {
+        console.log("user logged in ")
+        //console.log(firebaseUser)
+    } 
+    else {
+        console.log("not logged in");
+    }
+});
+
+//app.post('/userLogout', function (req,res) {
 
 
 //

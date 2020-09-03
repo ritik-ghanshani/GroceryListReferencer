@@ -79,7 +79,10 @@ export class Login extends Component {
                         </Link>
                     </p>
                     <p className="p">
-                        Forgot Password? <Link className="loglink">Reset</Link>
+                        Forgot Password?{' '}
+                        <Link to="/notFound" className="loglink">
+                            Reset
+                        </Link>
                     </p>
                 </form>
             </div>
