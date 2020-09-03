@@ -110,14 +110,21 @@ app.post('/userSubmit', (req, res) => {
             res.status(401).send(error.message);
         });
 });
-/*
+ 
+
 app.post('/passwordReset', (req, res) => {
-    const oldPassword = req.body.user['old_password'];
-    const newPassword = req.body.user['new_password'];
-    const newPassword = req.body.user['new_password_confirmation'];
+    const email = req.body.user.email;
+    firebase
+        .auth()
+        .sendPasswordResetEmail(email)
+        .then(() => {
+            res.json({"reset": true});
+        })
+        .catch((error) => {
+            res.status(401).send(error.message);
+        });
     
 });
-*/
 
 firebase.auth().onAuthStateChanged((firebaseUser) => {
     if (firebaseUser) {
@@ -129,14 +136,16 @@ firebase.auth().onAuthStateChanged((firebaseUser) => {
 
 app.get('/logged_in', (req, res) => {
     let email = req.query.email;
+    email = email.split(".")[0];
     let currentUser = firebase.auth().currentUser;
     if (currentUser) {
         let email = currentUser.email;
+        email = email.split(".")[0];
         console.log('current user is:', email);
         res.json({ logged_in: true, email });
     } else {
         console.log('no user is logged in');
-        res.json({ logged_in: false });
+        res.json({ logged_in: false, email});
     }
 });
 
@@ -160,12 +169,9 @@ app.delete('/logout', (req, res) => {
     // return stalet tus
 // return names of already existing grocery lists
 
-// app.get("/retrieveGroceryList?user=xxx&groceryList=yyy",
-// return specific grocery list based on name and user
-// returns Normal JSON Object
 
 app.get('/getUserLists', function (req, res) {
-    let username = req.query.user;
+    let username = req.query.user.split(".");
 
     if(!username) {
         res.status(400);
@@ -185,6 +191,10 @@ app.get('/getUserLists', function (req, res) {
         }
     });
 });
+
+// app.get("/retrieveGroceryList?user=xxx&groceryList=yyy",
+// return specific grocery list based on name and user
+// returns Normal JSON Object
 
 app.get('/retrieveGroceryList', (req, res) => {
     let username = req.query.user;
