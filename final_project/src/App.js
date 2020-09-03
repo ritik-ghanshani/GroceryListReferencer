@@ -74,7 +74,7 @@ export default class App extends Component {
                                 <Login
                                     {...props}
                                     validateLogin={this.validateLogin}
-                                    validateLogout={this.validateLogout}
+                                    // validateLogout={this.validateLogout}
                                     loggedInStatus={this.state.loggedInStatus}
                                 />
                             )}
@@ -85,6 +85,7 @@ export default class App extends Component {
                                 <Home
                                     {...props}
                                     loggedInStatus={this.state.loggedInStatus}
+                                    validateLogout={this.validateLogout}
                                 />
                             )}
                         />
@@ -94,7 +95,7 @@ export default class App extends Component {
                                 <Register
                                     {...props}
                                     validateLogin={this.validateLogin}
-                                    validateLogout={this.validateLogout}
+                                    // validateLogout={this.validateLogout}
                                     loggedInStatus={this.state.loggedInStatus}
                                 />
                             )}
