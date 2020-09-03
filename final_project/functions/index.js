@@ -136,7 +136,7 @@ firebase.auth().onAuthStateChanged( function (firebaseUser) {
     }
 });
 
-app.delete('logout', function(req,res) {
+app.delete('/logout', function(req,res) {
     //firebase.auth().
 
 });
