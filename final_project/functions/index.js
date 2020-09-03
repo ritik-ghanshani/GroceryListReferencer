@@ -219,22 +219,20 @@ app.get("/getUserLists", function(req,res) {
     let username = req.query.user;
     let groceryListName = req.query.groceryList;
 
-    let listOfParams = [username, groceryListName];
-    let listOfParamsString = ['User Name', 'Grocery List Name'];
-    for (let i = 0; i < listOfParams.length; i++) {
-        if (!checkParameter(listOfParams[i], listOfParamsString[i], res))
-            return;
+    if(!username) {
+        res.status(400);
+        res.json({ error: 'No username provided' });
+        return
     }
     var userRef = firebase.database().ref('users');
     userRef.once('value', (snapshot) => {
         //checks user exists
 
         if (snapshot.child(username).exists()) {
-            let groceryListSnapshot = snapshot
-                .child(username);
+            let groceryListSnapshot = snapshot.child(username);
             res.json(groceryListSnapshot.val());
             }
-        } else {
+        else {
             res.status(501);
             res.json({ error: 'User, ' + username + ', does not exist' });
         }
