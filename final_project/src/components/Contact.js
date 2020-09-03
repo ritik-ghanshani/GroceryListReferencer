@@ -6,7 +6,7 @@ export class Contact extends Component {
     render() {
         return (
             <div>
-                <NavBar></NavBar>
+                <NavBar />
                 <div className="box">
                     <h3 id="header">Contact Us</h3>
                     <p id="desc">
