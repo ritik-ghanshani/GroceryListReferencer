@@ -23,8 +23,16 @@ export class NavBar extends Component {
             });
     }
     render() {
+        const myStyle = {
+            color: '#101336',
+        };
+
         return (
-            <Navbar bg="dark" expand="lg" variant="dark">
+            <Navbar
+                style={{ background: myStyle.color }}
+                expand="lg"
+                variant="dark"
+            >
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Brand>Grocery List Referencer</Navbar.Brand>
                 <Navbar.Collapse id="basic-navbar-nav">
@@ -33,8 +41,12 @@ export class NavBar extends Component {
                             Home
                         </Nav.Link>
                         <Nav.Link className="d-inline p-2">Products</Nav.Link>
-                        <Nav.Link className="d-inline p-2">About Us</Nav.Link>
-                        <Nav.Link className="d-inline p-2">Contact</Nav.Link>
+                        <Nav.Link className="d-inline p-2" href="/about">
+                            About Us
+                        </Nav.Link>
+                        <Nav.Link className="d-inline p-2" href="/contact">
+                            Contact
+                        </Nav.Link>
                     </Nav>
                     <Dropdown>
                         <Dropdown.Toggle variant="dark" id="dropdown-basic">

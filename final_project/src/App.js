@@ -7,6 +7,8 @@ import { Reset } from './components/Reset';
 import NotFound from './components/NotFound';
 import axios from 'axios';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
+import { About } from './components/About';
+import { Contact } from './components/Contact';
 export default class App extends Component {
     constructor() {
         super();
@@ -90,7 +92,7 @@ export default class App extends Component {
                             )}
                         />
                         <Route
-                            path={'/Register'}
+                            path={'/register'}
                             render={(props) => (
                                 <Register
                                     {...props}
@@ -102,6 +104,26 @@ export default class App extends Component {
                         <Route
                             path={'/Reset'}
                             render={(props) => <Reset {...props} />}
+                        />
+                        <Route
+                            path={'/about'}
+                            render={(props) => (
+                                <About
+                                    {...props}
+                                    loggedInStatus={this.state.loggedInStatus}
+                                    validateLogout={this.validateLogout}
+                                />
+                            )}
+                        />
+                        <Route
+                            path={'/contact'}
+                            render={(props) => (
+                                <Contact
+                                    {...props}
+                                    loggedInStatus={this.state.loggedInStatus}
+                                    validateLogout={this.validateLogout}
+                                />
+                            )}
                         />
                         <Route component={NotFound} />
                     </Switch>
