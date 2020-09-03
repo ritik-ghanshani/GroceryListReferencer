@@ -33,7 +33,6 @@ export class Register extends Component {
                     password,
                     password_confirmation,
                 },
-
             })
             .then((response) => {
                 if (response.data.status === 'created') {
