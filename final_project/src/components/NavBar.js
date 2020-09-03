@@ -5,13 +5,14 @@ import { FaUserAlt } from 'react-icons/fa';
 
 export class NavBar extends Component {
     render() {
+        console.log(this.props);
         return (
             <Navbar bg="dark" expand="lg" variant="dark">
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Brand>Grocery List Referencer</Navbar.Brand>
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
-                        <Nav.Link className="d-inline p-2" href="/">
+                        <Nav.Link className="d-inline p-2" href="/home">
                             Home
                         </Nav.Link>
                         <Nav.Link className="d-inline p-2">Products</Nav.Link>
@@ -30,7 +31,7 @@ export class NavBar extends Component {
                                     <FaUserAlt />
                                 </span>
                             </IconContext.Provider>{' '}
-                            John Doe
+                            {this.props.email.email}
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
                             <Dropdown.Item>Add List</Dropdown.Item>
