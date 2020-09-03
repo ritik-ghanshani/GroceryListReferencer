@@ -296,7 +296,7 @@ function checkParameter(param, paramString, res) {
 // return json object {product:[ true/false, numAvailableInGroceryStore]} based on availability
 // maybe how much is in store?
 //
-app.get("/checkAvail?user=xxx&groceryList=yyy", (req, res) =>{
+app.get("/checkAvail", (req, res) =>{
     let username = req.query.user;
     let groceryListName = req.query.groceryList;
 
@@ -306,7 +306,7 @@ app.get("/checkAvail?user=xxx&groceryList=yyy", (req, res) =>{
         if (!checkParameter(listOfParams[i], listOfParamsString[i], res))
             return;
     }
-    var userRef = firebase.database().ref('users');
+    let userRef = firebase.database().ref('users');
     userRef.once('value', (snapshot) => {
         //checks user exists
         if (snapshot.child(username).exists()) {
