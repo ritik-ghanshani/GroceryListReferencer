@@ -62,7 +62,7 @@ app.post('/register', (req, res) => {
                 (currentData) => {
                     if (currentData == null) {
                         //return { "logged_in": false, "lists": "placeHolderGroceryList" };
-                        return  "placeHolderGroceryList" ;
+                        return 'placeHolderGroceryList';
                     } else {
                         console.log(
                             'Email Account already exists in database!'
@@ -134,24 +134,22 @@ app.post('/passwordReset', (req, res) => {
 
 firebase.auth().onAuthStateChanged((firebaseUser) => {
     if (firebaseUser) {
-        console.log(firebaseUser.email,'is user logged in ');
+        console.log(firebaseUser.email, 'is user logged in ');
         //console.log(firebaseUser)
     } else {
         console.log('not logged in');
     }
 });
 
-
 app.get('/logged_in', (req, res) => {
     let currentUser = firebase.auth().currentUser;
     if (currentUser) {
         let email = currentUser.email;
-        console.log("current user is", email)
-        res.json({"logged_in": true, email});
-    }
-    else {
-        console.log("no user is logged in");
-        res.json({"logged_in": false});
+        console.log('current user is', email);
+        res.json({ logged_in: true, email });
+    } else {
+        console.log('no user is logged in');
+        res.json({ logged_in: false });
     }
     /*
     const email = req.query.email;
@@ -175,28 +173,22 @@ app.get('/logged_in', (req, res) => {
     */
 });
 
-
-app.delete('/logout', (req,res) => {
-    let currentUser = firebase.auth().currentUser
+app.delete('/logout', (req, res) => {
+    let currentUser = firebase.auth().currentUser;
     if (currentUser) {
         firebase
             .auth()
             .signOut()
-            .then( () => {
-                console.log(currentUser.email, "has been signed out");
+            .then(() => {
+                console.log(currentUser.email, 'has been signed out');
                 res.send();
             });
-    }
-    else {
+    } else {
         res.status(400);
-        console.log("no user needs to be logged out");
+        console.log('no user needs to be logged out');
         res.send();
     }
 });
-
-
-
-
 
 //
 // app.get("/getUserLists?user=xxx", function(req,res) {
@@ -207,7 +199,7 @@ app.delete('/logout', (req,res) => {
 // return specific grocery list based on name and user
 // returns Normal JSON Object
 
-app.get("/getUserLists", function(req,res) {
+app.get('/getUserLists', function (req, res) {
     let username = req.query.user;
     let groceryListName = req.query.groceryList;
 
@@ -222,10 +214,8 @@ app.get("/getUserLists", function(req,res) {
         //checks user exists
 
         if (snapshot.child(username).exists()) {
-            let groceryListSnapshot = snapshot
-                .child(username);
+            let groceryListSnapshot = snapshot.child(username);
             res.json(groceryListSnapshot.val());
-            }
         } else {
             res.status(501);
             res.json({ error: 'User, ' + username + ', does not exist' });
@@ -425,21 +415,17 @@ ref.once("value").then( function(snapshot) {
 
 // app.get("/getGroceryItems")
 // send back all items in grocery store
-app.get("/getGroceryItems", function (req,res) {
-    var groceryStoreRef = firebase.database().ref("groceryStore");
-    groceryStoreRef.once("value", function(snapshot) { 
-
+app.get('/getGroceryItems', function (req, res) {
+    var groceryStoreRef = firebase.database().ref('groceryStore');
+    groceryStoreRef.once('value', function (snapshot) {
         if (snapshot.exists()) {
             res.json(snapshot.val());
-        } 
-        else {
+        } else {
             res.status(500);
             res.send();
         }
-    })
+    });
 });
-    
-
 
 /*
 app.listen(port, hostname, () => {
