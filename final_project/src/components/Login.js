@@ -32,7 +32,7 @@ export class Login extends Component {
             })
             .then((response) => {
                 if (response.data.logged_in) {
-                    this.props.validateLogin(response.data);
+                    this.props.validateLogin(response.data.email);
                     this.props.history.push('/Home');
                 }
             })

@@ -9,7 +9,6 @@ import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 export default class App extends Component {
     constructor() {
         super();
-
         this.state = {
             loggedInStatus: 'NOT_LOGGED_IN',
             email: '',
@@ -74,7 +73,6 @@ export default class App extends Component {
                                 <Login
                                     {...props}
                                     validateLogin={this.validateLogin}
-                                    // validateLogout={this.validateLogout}
                                     loggedInStatus={this.state.loggedInStatus}
                                 />
                             )}
@@ -96,7 +94,6 @@ export default class App extends Component {
                                 <Register
                                     {...props}
                                     validateLogin={this.validateLogin}
-                                    // validateLogout={this.validateLogout}
                                     loggedInStatus={this.state.loggedInStatus}
                                 />
                             )}
