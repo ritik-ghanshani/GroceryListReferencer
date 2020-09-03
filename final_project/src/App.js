@@ -3,6 +3,7 @@ import './App.css';
 import { Login } from './components/Login';
 import { Home } from './components/Home';
 import { Register } from './components/Register';
+import { Reset } from './components/Reset';
 import NotFound from './components/NotFound';
 import axios from 'axios';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
@@ -97,6 +98,10 @@ export default class App extends Component {
                                     loggedInStatus={this.state.loggedInStatus}
                                 />
                             )}
+                        />
+                        <Route
+                            path={'/Reset'}
+                            render={(props) => <Reset {...props} />}
                         />
                         <Route component={NotFound} />
                     </Switch>

@@ -79,7 +79,7 @@ export class Login extends Component {
                     </p>
                     <p className="p">
                         Forgot Password?{' '}
-                        <Link to="/notFound" className="loglink">
+                        <Link to="/Reset" className="loglink">
                             Reset
                         </Link>
                     </p>
