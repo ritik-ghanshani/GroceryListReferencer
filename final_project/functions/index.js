@@ -110,7 +110,6 @@ app.post('/userSubmit', (req, res) => {
             res.status(401).send(error.message);
         });
 });
- 
 
 app.post('/passwordReset', (req, res) => {
     const email = req.body.user.email;
@@ -118,12 +117,11 @@ app.post('/passwordReset', (req, res) => {
         .auth()
         .sendPasswordResetEmail(email)
         .then(() => {
-            res.json({"reset": true});
+            res.json({ reset: true });
         })
         .catch((error) => {
             res.status(401).send(error.message);
         });
-    
 });
 
 firebase.auth().onAuthStateChanged((firebaseUser) => {
@@ -136,16 +134,16 @@ firebase.auth().onAuthStateChanged((firebaseUser) => {
 
 app.get('/logged_in', (req, res) => {
     let email = req.query.email;
-    email = email.split(".")[0];
+    email = email.split('.')[0];
     let currentUser = firebase.auth().currentUser;
     if (currentUser) {
         let email = currentUser.email;
-        email = email.split(".")[0];
+        email = email.split('.')[0];
         console.log('current user is:', email);
         res.json({ logged_in: true, email });
     } else {
         console.log('no user is logged in');
-        res.json({ logged_in: false, email});
+        res.json({ logged_in: false, email });
     }
 });
 
@@ -166,17 +164,16 @@ app.delete('/logout', (req, res) => {
 });
 //
 // app.get("/getUserLists?user=xxx", function(req,res) {
-    // return stalet tus
+// return stalet tus
 // return names of already existing grocery lists
 
-
 app.get('/getUserLists', function (req, res) {
-    let username = req.query.user.split(".");
+    let username = req.query.user.split('.');
 
-    if(!username) {
+    if (!username) {
         res.status(400);
         res.json({ error: 'No username provided' });
-        return
+        return;
     }
     let userRef = firebase.database().ref('users');
     userRef.once('value', (snapshot) => {
@@ -306,7 +303,7 @@ function checkParameter(param, paramString, res) {
 // return json object {product:[ true/false, numAvailableInGroceryStore]} based on availability
 // maybe how much is in store?
 //
-app.get("/checkAvail", (req, res) =>{
+app.get('/checkAvail', (req, res) => {
     let username = req.query.user;
     let groceryListName = req.query.groceryList;
 
@@ -318,7 +315,7 @@ app.get("/checkAvail", (req, res) =>{
     }
     let userRef = firebase.database().ref('users');
     let groceryStoreRef = firebase.database().ref('groceryStore');
-    
+
     userRef.once('value', (snapshot) => {
         //checks user exists
         if (snapshot.child(username).exists()) {
@@ -330,24 +327,34 @@ app.get("/checkAvail", (req, res) =>{
                 groceryStoreRef.once('value', (groceryStoreSnapshot) => {
                     let groceryStoreContents = groceryStoreSnapshot.val();
                     let availGroceryItems = {};
-                    for (groceryItem in groceryListContents){
+                    for (groceryItem in groceryListContents) {
                         if (!(groceryItem in groceryStoreContents))
                             availGroceryItems[groceryItem] = [false, -1];
-                        else if(groceryListContents[groceryItem] > groceryStoreContents[groceryItem]){
-                            availGroceryItems[groceryItem] = [false, (groceryListContents[groceryItem] - groceryStoreContents[groceryItem])];
+                        else if (
+                            groceryListContents[groceryItem] >
+                            groceryStoreContents[groceryItem]
+                        ) {
+                            availGroceryItems[groceryItem] = [
+                                false,
+                                groceryListContents[groceryItem] -
+                                    groceryStoreContents[groceryItem],
+                            ];
                         } else {
                             availGroceryItems[groceryItem] = [true, 0];
                         }
                     }
-                return res.json(availGroceryItems);
-                })
+                    return res.json(availGroceryItems);
+                });
             } else {
                 return res.status(501).json({
-                    error: 'Grocery List, ' + groceryListName + ', does not exist',
+                    error:
+                        'Grocery List, ' + groceryListName + ', does not exist',
                 });
             }
         } else {
-            return res.status(501).json({ error: 'User, ' + username + ', does not exist' });
+            return res
+                .status(501)
+                .json({ error: 'User, ' + username + ', does not exist' });
         }
     });
 });
@@ -410,7 +417,6 @@ app.delete('/deleteList', (req, res) => {
 // send status back
 //
 // use date stamp to keep track of grocery list
-
 
 // app.get("/getGroceryItems")
 // send back all items in grocery store
