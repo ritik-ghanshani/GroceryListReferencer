@@ -29,10 +29,11 @@ export class Register extends Component {
         axios
             .post('/register', {
                 user: {
-                    email: email,
-                    password: password,
-                    password_confirmation: password_confirmation,
+                    email,
+                    password,
+                    password_confirmation,
                 },
+
             })
             .then((response) => {
                 if (response.data.status === 'created') {

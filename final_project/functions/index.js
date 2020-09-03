@@ -94,6 +94,7 @@ app.post("/register", function(req,res) {
 });
 
 app.post('/userSubmit', function(req,res) {
+    console.log(req.body.user);
     const email = req.body.user.email;
     const password = req.body.user.password;
     if (!email || !password) {
@@ -129,11 +130,13 @@ firebase.auth().onAuthStateChanged( function (firebaseUser) {
         //console.log(firebaseUser)
     } 
     else {
+        
         console.log("not logged in");
     }
 });
 
 //app.post('/userLogout', function (req,res) {
+
 
 
 //
