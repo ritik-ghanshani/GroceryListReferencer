@@ -209,7 +209,6 @@ app.delete('/logout', (req,res) => {
 
 app.get("/getUserLists", function(req,res) {
     let username = req.query.user;
-    let groceryListName = req.query.groceryList;
 
     let listOfParams = [username, groceryListName];
     let listOfParamsString = ['User Name', 'Grocery List Name'];
