@@ -36,7 +36,7 @@ export class Register extends Component {
             })
             .then((response) => {
                 if (response.data.status === 'created') {
-                    this.props.validateSuccessfulAuth(response.data);
+                    this.props.validateLogin(response.data);
                 }
             })
             .catch((error) => {

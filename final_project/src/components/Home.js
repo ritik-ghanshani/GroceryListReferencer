@@ -8,12 +8,7 @@ export class Home extends Component {
     constructor(props) {
         super(props);
 
-        this.validateSuccessfulAuth = this.validateSuccessfulAuth.bind(this);
         this.validateLogoutClick = this.validateLogoutClick.bind(this);
-    }
-
-    validateSuccessfulAuth(data) {
-        this.props.validateLogin(data);
     }
 
     validateLogoutClick() {

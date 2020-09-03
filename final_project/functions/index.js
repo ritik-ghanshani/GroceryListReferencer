@@ -112,7 +112,7 @@ app.post('/userSubmit', (req, res) => {
         .auth()
         .signInWithEmailAndPassword(email, password)
         .then(() => {
-            res.json({ logged_in: true });
+            res.json({ logged_in: true, email });
         })
         .catch((error) => {
             // Handle Errors here.

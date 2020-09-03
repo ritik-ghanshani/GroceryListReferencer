@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
 import './App.css';
 import { Login } from './components/Login';
+import { Home } from './components/Home';
+import { Register } from './components/Register';
+import NotFound from './components/NotFound';
 import axios from 'axios';
-
+import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 export default class App extends Component {
     constructor() {
         super();
 
         this.state = {
             loggedInStatus: 'NOT_LOGGED_IN',
-            user: {},
+            email: '',
         };
 
         this.validateLogin = this.validateLogin.bind(this);
@@ -26,7 +29,7 @@ export default class App extends Component {
                 ) {
                     this.setState({
                         loggedInStatus: 'LOGGED_IN',
-                        user: response.data.user,
+                        email: response.data.email,
                     });
                 } else if (
                     !response.data.logged_in &&
@@ -34,7 +37,7 @@ export default class App extends Component {
                 ) {
                     this.setState({
                         loggedInStatus: 'NOT_LOGGED_IN',
-                        user: {},
+                        email: '',
                     });
                 }
             })
@@ -50,20 +53,55 @@ export default class App extends Component {
     validateLogout() {
         this.setState({
             loggedInStatus: 'NOT_LOGGED_IN',
-            user: {},
+            email: '',
         });
     }
     validateLogin(data) {
         this.setState({
             loggedInStatus: 'LOGGED_IN',
-            user: data.user,
+            email: data.email,
         });
     }
-
     render() {
         return (
             <div className="App">
-                <Login />
+                <Router>
+                    <Switch>
+                        <Route
+                            exact
+                            path={'/'}
+                            render={(props) => (
+                                <Login
+                                    {...props}
+                                    validateLogin={this.validateLogin}
+                                    validateLogout={this.validateLogout}
+                                    loggedInStatus={this.state.loggedInStatus}
+                                />
+                            )}
+                        />
+                        <Route
+                            path={'/home'}
+                            render={(props) => (
+                                <Home
+                                    {...props}
+                                    loggedInStatus={this.state.loggedInStatus}
+                                />
+                            )}
+                        />
+                        <Route
+                            path={'/Register'}
+                            render={(props) => (
+                                <Register
+                                    {...props}
+                                    validateLogin={this.validateLogin}
+                                    validateLogout={this.validateLogout}
+                                    loggedInStatus={this.state.loggedInStatus}
+                                />
+                            )}
+                        />
+                        <Route component={NotFound} />
+                    </Switch>
+                </Router>
             </div>
         );
     }

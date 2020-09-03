@@ -32,12 +32,12 @@ export class Login extends Component {
             })
             .then((response) => {
                 if (response.data.logged_in) {
-                    console.log(this.props);
-                    this.props.validateSuccessfulAuth(response.data);
+                    this.props.validateLogin(response.data);
+                    this.props.history.push('/Home');
                 }
             })
             .catch((error) => {
-                console.log(`login error ${error}`);
+                console.log(`login error: ${error}`);
             });
         event.preventDefault();
     }
