@@ -61,7 +61,8 @@ app.post('/register', (req, res) => {
             userRef.transaction(
                 (currentData) => {
                     if (currentData == null) {
-                        return 'placeHolderGroceryList';
+                        //return { "logged_in": false, "lists": "placeHolderGroceryList" };
+                        return  "placeHolderGroceryList" ;
                     } else {
                         console.log(
                             'Email Account already exists in database!'
@@ -75,12 +76,6 @@ app.post('/register', (req, res) => {
                         //res.json({"error" : "Unknown Internal Server Error"});
                         res.send();
                     }
-                    /*
-                else if ( !committed ) {
-                    res.status(501)
-                    res.json({"error" : "Email already taken"});
-                }
-                */
                 }
             );
             console.log(emailParsed);
@@ -112,6 +107,12 @@ app.post('/userSubmit', (req, res) => {
         .auth()
         .signInWithEmailAndPassword(email, password)
         .then(() => {
+            /*
+            let emailParsed = email.split('.')[0];
+            let loggedInRef = firebase.database().ref(`users/${emailParsed}/logged_in`);
+            loggedInRef.set("true");
+            */
+            let email = firebase.auth().currentUser;
             res.json({ logged_in: true, email });
         })
         .catch((error) => {
@@ -122,28 +123,80 @@ app.post('/userSubmit', (req, res) => {
             res.status(401).send();
         });
 });
-
+/*
 app.post('/passwordReset', (req, res) => {
     const oldPassword = req.body.user['old_password'];
     const newPassword = req.body.user['new_password'];
+    const newPassword = req.body.user['new_password_confirmation'];
+    
 });
+*/
 
 firebase.auth().onAuthStateChanged((firebaseUser) => {
     if (firebaseUser) {
-        console.log('user logged in ');
+        console.log(firebaseUser.email,'is user logged in ');
         //console.log(firebaseUser)
     } else {
         console.log('not logged in');
     }
 });
 
-app.delete('/logout', function(req,res) {
-    //firebase.auth().
 
+app.get('/logged_in', (req, res) => {
+    let currentUser = firebase.auth().currentUser;
+    if (currentUser) {
+        let email = currentUser.email;
+        console.log("current user is", email)
+        res.json({"logged_in": true, email});
+    }
+    else {
+        console.log("no user is logged in");
+        res.json({"logged_in": false});
+    }
+    /*
+    const email = req.query.email;
+    if (!email) {
+        res.status(400);
+        res.send()
+        return;
+    };
+    const emailParsed = email.split('.')[0];
+    let loggedInRef = firebase.database().ref(`users/${emailParsed}/logged_in`);
+    loggedInRef.once('value', (snapshot) => {
+        if (snapshot.exists()) {
+            res.json({"logged_in" : snapshot.val(), email}); 
+        }
+        else {
+            console.log("User does not exist");
+            res.status(401);
+            res.send();
+        }
+    });
+    */
 });
 
 
-//app.post('/userLogout', function (req,res) {
+app.delete('/logout', (req,res) => {
+    let currentUser = firebase.auth().currentUser
+    if (currentUser) {
+        firebase
+            .auth()
+            .signOut()
+            .then( () => {
+                console.log(currentUser.email, "has been signed out");
+                res.send();
+            });
+    }
+    else {
+        res.status(400);
+        console.log("no user needs to be logged out");
+        res.send();
+    }
+});
+
+
+
+
 
 //
 // app.get("/getUserLists?user=xxx", function(req,res) {
@@ -157,6 +210,7 @@ app.delete('/logout', function(req,res) {
 app.get('/retrieveGroceryList', (req, res) => {
     let username = req.query.user;
     let groceryListName = req.query.groceryList;
+
     let listOfParams = [username, groceryListName];
     let listOfParamsString = ['User Name', 'Grocery List Name'];
     for (let i = 0; i < listOfParams.length; i++) {
