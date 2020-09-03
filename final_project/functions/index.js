@@ -202,10 +202,45 @@ app.delete('/logout', (req,res) => {
 // app.get("/getUserLists?user=xxx", function(req,res) {
 // return status
 // return names of already existing grocery lists
-//
+
 // app.get("/retrieveGroceryList?user=xxx&groceryList=yyy",
 // return specific grocery list based on name and user
 // returns Normal JSON Object
+
+app.get("/getUserLists?user=xxx", function(req,res) {
+    let username = req.query.user;
+    let groceryListName = req.query.groceryList;
+
+    let listOfParams = [username, groceryListName];
+    let listOfParamsString = ['User Name', 'Grocery List Name'];
+    for (let i = 0; i < listOfParams.length; i++) {
+        if (!checkParameter(listOfParams[i], listOfParamsString[i], res))
+            return;
+    }
+    var userRef = firebase.database().ref('users');
+    userRef.once('value', (snapshot) => {
+        //checks user exists
+
+        if (snapshot.child(username).exists()) {
+            let groceryListSnapshot = snapshot
+                .child(username)
+                .child(groceryListName);
+
+            if (groceryListSnapshot.exists()) {
+                res.json(groceryListSnapshot.val());
+            } else {
+                res.status(501);
+                res.json({
+                    error:
+                        'Grocery List, ' + groceryListName + ', does not exist',
+                });
+            }
+        } else {
+            res.status(501);
+            res.json({ error: 'User, ' + username + ', does not exist' });
+        }
+    });
+});
 
 app.get('/retrieveGroceryList', (req, res) => {
     let username = req.query.user;
