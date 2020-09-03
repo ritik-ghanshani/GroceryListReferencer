@@ -45,7 +45,13 @@ export class NavBar extends Component {
                             John Doe
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
-                            <Dropdown.Item>Logout</Dropdown.Item>
+                            <Dropdown.Item>Add List</Dropdown.Item>
+                            <Dropdown.Item>View Lists</Dropdown.Item>
+                            <Dropdown.Item
+                                onClick={this.props.validateLogoutClick}
+                            >
+                                Logout
+                            </Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
                 </Navbar.Collapse>

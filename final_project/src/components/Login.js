@@ -24,22 +24,20 @@ export class Login extends Component {
     validateSubmit(event) {
         const { email, password } = this.state;
         axios
-            .post(
-                '/userSubmit', //this name is tentative
-                {
-                    user: {
-                        email: email,
-                        password: password,
-                    },
-                }
-            )
+            .post('/userSubmit', {
+                user: {
+                    email,
+                    password,
+                },
+            })
             .then((response) => {
                 if (response.data.logged_in) {
-                    this.props.validateSuccesAuth(response.data);
+                    this.props.validateLogin(response.data);
+                    this.props.history.push('/Home');
                 }
             })
             .catch((error) => {
-                console.log(`login error ${error}`);
+                this.setState({ loginErrors: error.response.data });
             });
         event.preventDefault();
     }
@@ -48,9 +46,9 @@ export class Login extends Component {
         return (
             <div id="modal" className="App">
                 <h1 id="header">Login Page</h1>
-                <form>
+                <form onSubmit={this.validateSubmit}>
                     <input
-                        type="text"
+                        type="email"
                         name="email"
                         placeholder="Email"
                         value={this.state.email}
@@ -68,6 +66,7 @@ export class Login extends Component {
                         required
                     />
                     <br />
+                    <p className="p-error">{this.state.loginErrors}</p>
                     <button id="registerlogin" type="submit">
                         Login
                     </button>
