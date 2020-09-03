@@ -8,6 +8,8 @@ import { Register } from './components/Register';
 import NotFound from './components/NotFound';
 import * as serviceWorker from './serviceWorker';
 import * as firebase from 'firebase';
+import { About } from './components/About';
+import { Contact } from './components/Contact';
 
 const config = {
     apiKey: 'AIzaSyD1KuT744S0uB27hGWm35J638_-O5fYW08',
@@ -29,6 +31,8 @@ const routes = (
                 <Route exact path="/" component={App} />
                 <Route path="/home" component={Home} />
                 <Route path="/register" component={Register} />
+                <Route path="/about" component={About} />
+                <Route path="/contact" component={Contact} />
                 <Route component={NotFound} />
             </Switch>
         </div>
