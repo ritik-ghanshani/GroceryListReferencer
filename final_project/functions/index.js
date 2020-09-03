@@ -39,18 +39,15 @@ app.post('/register', (req, res) => {
     const email = req.body.user.email;
     const password = req.body.user.password;
     const passwordConfirmation = req.body.user['password_confirmation'];
+    let alreadyExists = false;
     if (!email || !password) {
-        console.log('no email or password provided');
-        res.status(400);
-        //res.json({ "error" : "No email or password provided" });
-        res.send();
-        return;
+        return res.status(400).send('No Email or Password Provided');
     }
     if (password !== passwordConfirmation) {
-        console.log('password does not match');
-        res.status(400).send();
-        //.send( "password does not match");
-        return;
+        return res.status(400).send('Password Does Not Match');
+    }
+    if (email.split('.').length > 2) {
+        return res.status(400).send('Email has more than one period');
     }
     firebase
         .auth()
@@ -64,63 +61,52 @@ app.post('/register', (req, res) => {
                         //return { "logged_in": false, "lists": "placeHolderGroceryList" };
                         return 'placeHolderGroceryList';
                     } else {
-                        console.log(
-                            'Email Account already exists in database!'
-                        );
-                        return;
+                        alreadyExists = true;
                     }
                 },
-                (error, committed, snapshot) => {
+                (error) => {
                     if (error) {
-                        res.status(500);
-                        //res.json({"error" : "Unknown Internal Server Error"});
-                        res.send();
+                        return res.status(500).send(error.message);
                     }
                 }
             );
             console.log(emailParsed);
+            if (alreadyExists) {
+                return res
+                    .status(401)
+                    .send('Email Account already exists in database!');
+            }
             res.json({ status: 'created' });
         })
+        .then(() => {
+            let currentUser = firebase.auth().currentUser;
+            firebase
+                .auth()
+                .signOut()
+                .then(() => {
+                    console.log(currentUser.email, 'has been signed out');
+                });
+        })
         .catch((error) => {
-            // Handle Errors here.
-            let errorCode = error.code;
-            let errorMessage = error.message;
-            res.status(501);
-            res.send();
-            console.log(errorCode);
-            console.log(errorMessage);
+            return res.status(501).send(error.message);
         });
 });
 
 app.post('/userSubmit', (req, res) => {
-    // console.log(req.body.user);
     const email = req.body.user.email;
     const password = req.body.user.password;
     if (!email || !password) {
-        console.log('no email or password provided');
-        res.status(400);
-        //res.json({ "error" : "No email or password provided" });
-        res.send();
-        return;
+        return res.status(400).send('No Email or Password Provided');
     }
     firebase
         .auth()
         .signInWithEmailAndPassword(email, password)
         .then(() => {
-            /*
-            let emailParsed = email.split('.')[0];
-            let loggedInRef = firebase.database().ref(`users/${emailParsed}/logged_in`);
-            loggedInRef.set("true");
-            */
             let email = firebase.auth().currentUser;
             res.json({ logged_in: true, email });
         })
         .catch((error) => {
-            // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            console.log(errorMessage);
-            res.status(401).send();
+            res.status(401).send(error.message);
         });
 });
 /*
@@ -135,7 +121,6 @@ app.post('/passwordReset', (req, res) => {
 firebase.auth().onAuthStateChanged((firebaseUser) => {
     if (firebaseUser) {
         console.log(firebaseUser.email, 'is user logged in ');
-        //console.log(firebaseUser)
     } else {
         console.log('not logged in');
     }
@@ -145,32 +130,12 @@ app.get('/logged_in', (req, res) => {
     let currentUser = firebase.auth().currentUser;
     if (currentUser) {
         let email = currentUser.email;
-        console.log('current user is', email);
+        console.log('current user is:', email);
         res.json({ logged_in: true, email });
     } else {
         console.log('no user is logged in');
         res.json({ logged_in: false });
     }
-    /*
-    const email = req.query.email;
-    if (!email) {
-        res.status(400);
-        res.send()
-        return;
-    };
-    const emailParsed = email.split('.')[0];
-    let loggedInRef = firebase.database().ref(`users/${emailParsed}/logged_in`);
-    loggedInRef.once('value', (snapshot) => {
-        if (snapshot.exists()) {
-            res.json({"logged_in" : snapshot.val(), email}); 
-        }
-        else {
-            console.log("User does not exist");
-            res.status(401);
-            res.send();
-        }
-    });
-    */
 });
 
 app.delete('/logout', (req, res) => {
@@ -184,12 +149,10 @@ app.delete('/logout', (req, res) => {
                 res.send();
             });
     } else {
-        res.status(400);
         console.log('no user needs to be logged out');
-        res.send();
+        res.status(400).send();
     }
 });
-
 //
 // app.get("/getUserLists?user=xxx", function(req,res) {
 // return status
@@ -209,7 +172,7 @@ app.get('/getUserLists', function (req, res) {
         if (!checkParameter(listOfParams[i], listOfParamsString[i], res))
             return;
     }
-    var userRef = firebase.database().ref('users');
+    let userRef = firebase.database().ref('users');
     userRef.once('value', (snapshot) => {
         //checks user exists
 
@@ -217,8 +180,9 @@ app.get('/getUserLists', function (req, res) {
             let groceryListSnapshot = snapshot.child(username);
             res.json(groceryListSnapshot.val());
         } else {
-            res.status(501);
-            res.json({ error: 'User, ' + username + ', does not exist' });
+            res.status(501).json({
+                error: `User, ${username} does not exist`,
+            });
         }
     });
 });
@@ -233,7 +197,7 @@ app.get('/retrieveGroceryList', (req, res) => {
         if (!checkParameter(listOfParams[i], listOfParamsString[i], res))
             return;
     }
-    var userRef = firebase.database().ref('users');
+    let userRef = firebase.database().ref('users');
     userRef.once('value', (snapshot) => {
         //checks user exists
 
@@ -245,15 +209,14 @@ app.get('/retrieveGroceryList', (req, res) => {
             if (groceryListSnapshot.exists()) {
                 res.json(groceryListSnapshot.val());
             } else {
-                res.status(501);
-                res.json({
-                    error:
-                        'Grocery List, ' + groceryListName + ', does not exist',
+                res.status(501).json({
+                    error: `Grocery List ${groceryListName}, does not exist`,
                 });
             }
         } else {
-            res.status(501);
-            res.json({ error: 'User, ' + username + ', does not exist' });
+            res.status(501).json({
+                error: `User, ${username}, does not exist`,
+            });
         }
     });
 });
@@ -281,7 +244,7 @@ app.post('/createGroceryList', (req, res) => {
             return;
     }
 
-    var userRef = firebase.database().ref('users');
+    let userRef = firebase.database().ref('users');
     userRef.once('value', (snapshot) => {
         //checks user exists
         if (snapshot.child(username).exists()) {
@@ -296,24 +259,19 @@ app.post('/createGroceryList', (req, res) => {
                     } else {
                         //make sure that new grocery list isn't overwriting old grocery list
                         console.log(
-                            'grocery list, ' +
-                                groceryListName +
-                                ' already exists'
+                            `grocery list ${groceryListName} already exists`
                         );
                         return;
                     }
                 },
-                (error, committed, snapshot) => {
+                (error, committed) => {
                     if (error) {
-                        res.status(500);
-                        res.json({ error: 'Unknown Internal Server Error' });
+                        res.status(500).json({
+                            error: 'Unknown Internal Server Error',
+                        });
                     } else if (!committed) {
-                        res.status(501);
-                        res.json({
-                            error:
-                                "grocery list '" +
-                                groceryListName +
-                                "' already exists",
+                        res.status(501).json({
+                            error: `grocery list ${groceryListName} already exists`,
                         });
                     } else {
                         console.log(groceryListName + ' was added!');
@@ -322,8 +280,7 @@ app.post('/createGroceryList', (req, res) => {
                 }
             );
         } else {
-            res.status(501);
-            res.json({ error: 'User does not exist' });
+            res.status(501).json({ error: 'User does not exist' });
         }
     });
 });
@@ -331,8 +288,7 @@ app.post('/createGroceryList', (req, res) => {
 function checkParameter(param, paramString, res) {
     if (!param || Object.keys(param).length === 0) {
         console.log('No ' + paramString + ' provided');
-        res.status(400);
-        res.json({ error: 'No ' + paramString + ' provided' });
+        res.status(400).json({ error: `No ${paramString} provided` });
         return false;
     } else return true;
 }
@@ -356,13 +312,12 @@ app.delete('/deleteList', (req, res) => {
         if (!checkParameter(listOfParams[i], listOfParamsString[i], res))
             return;
     }
-    var userRef = firebase.database().ref('users');
+    let userRef = firebase.database().ref('users');
     userRef.once('value', (snapshot) => {
         //checks user exists
 
         if (!snapshot.child(username).exists()) {
-            res.status(501);
-            res.json({ error: 'User, ' + username + ', does not exist' });
+            res.status(501).json({ error: `User, ${username} does not exist` });
             return;
         }
 
@@ -371,11 +326,9 @@ app.delete('/deleteList', (req, res) => {
             .child(groceryListName);
 
         if (!groceryListSnapshot.exists()) {
-            res.status(501);
-            res.json({
-                error: 'Grocery List, ' + groceryListName + ', does not exist',
+            return res.status(501).json({
+                error: `Grocery List, ${groceryListName}, does not exist`,
             });
-            return;
         }
 
         let userNameRef = userRef.child(username);
@@ -406,7 +359,7 @@ app.delete('/deleteList', (req, res) => {
 // use date stamp to keep track of grocery list
 
 /*
-var ref =  firebase.database().ref();
+let ref =  firebase.database().ref();
 ref.once("value").then( function(snapshot) {
     let name = snapshot.child("hey").val();
     console.log(name);
@@ -416,13 +369,12 @@ ref.once("value").then( function(snapshot) {
 // app.get("/getGroceryItems")
 // send back all items in grocery store
 app.get('/getGroceryItems', function (req, res) {
-    var groceryStoreRef = firebase.database().ref('groceryStore');
+    let groceryStoreRef = firebase.database().ref('groceryStore');
     groceryStoreRef.once('value', function (snapshot) {
         if (snapshot.exists()) {
             res.json(snapshot.val());
         } else {
-            res.status(500);
-            res.send();
+            res.sendStatus(500);
         }
     });
 });

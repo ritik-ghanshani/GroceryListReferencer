@@ -36,12 +36,13 @@ export class Register extends Component {
             })
             .then((response) => {
                 if (response.data.status === 'created') {
-                    this.props.validateLogin(response.data);
                     this.props.history.push('/');
                 }
             })
             .catch((error) => {
-                console.log('registration error', error);
+                if (error.response) {
+                    this.setState({ registrationErrors: error.response.data });
+                }
             });
         event.preventDefault();
     }
@@ -79,6 +80,7 @@ export class Register extends Component {
                         required
                     />
                     <br />
+                    <p className="p-error">{this.state.registrationErrors}</p>
                     <button id="registerlogin" type="submit">
                         Register
                     </button>
