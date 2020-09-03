@@ -24,22 +24,20 @@ export class Login extends Component {
     validateSubmit(event) {
         const { email, password } = this.state;
         axios
-            .post(
-                '/userSubmit', 
-                {
-                    user: {
-                        email,
-                        password,
-                    },
-                }
-            )
+            .post('/userSubmit', {
+                user: {
+                    email,
+                    password,
+                },
+            })
             .then((response) => {
                 if (response.data.logged_in) {
-                    this.props.validateSuccessfulAuth(response.data);
+                    this.props.validateLogin(response.data);
+                    this.props.history.push('/Home');
                 }
             })
             .catch((error) => {
-                console.log(`login error ${error}`);
+                console.log(`login error: ${error}`);
             });
         event.preventDefault();
     }

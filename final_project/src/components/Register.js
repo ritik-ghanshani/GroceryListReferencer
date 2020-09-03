@@ -33,11 +33,10 @@ export class Register extends Component {
                     password,
                     password_confirmation,
                 },
-
             })
             .then((response) => {
                 if (response.data.status === 'created') {
-                    this.props.validateSuccessfulAuth(response.data);
+                    this.props.validateLogin(response.data);
                 }
             })
             .catch((error) => {
