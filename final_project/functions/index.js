@@ -207,7 +207,7 @@ app.delete('/logout', (req,res) => {
 // return specific grocery list based on name and user
 // returns Normal JSON Object
 
-app.get("/getUserLists?user=xxx", function(req,res) {
+app.get("/getUserLists", function(req,res) {
     let username = req.query.user;
     let groceryListName = req.query.groceryList;
 
@@ -223,17 +223,8 @@ app.get("/getUserLists?user=xxx", function(req,res) {
 
         if (snapshot.child(username).exists()) {
             let groceryListSnapshot = snapshot
-                .child(username)
-                .child(groceryListName);
-
-            if (groceryListSnapshot.exists()) {
-                res.json(groceryListSnapshot.val());
-            } else {
-                res.status(501);
-                res.json({
-                    error:
-                        'Grocery List, ' + groceryListName + ', does not exist',
-                });
+                .child(username);
+            res.json(groceryListSnapshot.val());
             }
         } else {
             res.status(501);
