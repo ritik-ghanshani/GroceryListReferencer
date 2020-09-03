@@ -32,6 +32,7 @@ export class Login extends Component {
             })
             .then((response) => {
                 if (response.data.logged_in) {
+                    console.log(this.props);
                     this.props.validateSuccessfulAuth(response.data);
                 }
             })
