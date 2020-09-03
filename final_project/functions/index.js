@@ -307,6 +307,8 @@ app.get("/checkAvail", (req, res) =>{
             return;
     }
     let userRef = firebase.database().ref('users');
+    let groceryStoreRef = firebase.database().ref('groceryStore');
+    
     userRef.once('value', (snapshot) => {
         //checks user exists
         if (snapshot.child(username).exists()) {
@@ -315,26 +317,27 @@ app.get("/checkAvail", (req, res) =>{
                 .child(groceryListName);
             if (groceryListSnapshot.exists()) {
                 let groceryListContents = groceryListSnapshot.val();
-                let groceryStoreContents = snapshot.child("groceryStore");
-                let availGroceryItems = {};
-                for (groceryItem in groceryListContents){
-                    if(groceryListContents[groceryItem] > groceryStoreContents[groceryItem]){
-                        availGroceryItems[groceryItem] = [false, (groceryListContents[groceryItem] - groceryStoreContents[groceryItem])];
-                    } else {
-                        availGroceryItems[groceryItem] = [true, 0];
+                groceryStoreRef.once('value', (groceryStoreSnapshot) => {
+                    let groceryStoreContents = groceryStoreSnapshot.val();
+                    let availGroceryItems = {};
+                    for (groceryItem in groceryListContents){
+                        if (!(groceryItem in groceryStoreContents))
+                            availGroceryItems[groceryItem] = [false, -1];
+                        else if(groceryListContents[groceryItem] > groceryStoreContents[groceryItem]){
+                            availGroceryItems[groceryItem] = [false, (groceryListContents[groceryItem] - groceryStoreContents[groceryItem])];
+                        } else {
+                            availGroceryItems[groceryItem] = [true, 0];
+                        }
                     }
-                }
-                res.json(groceryListSnapshot.val());
+                return res.json(availGroceryItems);
+                })
             } else {
-                res.status(501);
-                res.json({
-                    error:
-                        'Grocery List, ' + groceryListName + ', does not exist',
+                return res.status(501).json({
+                    error: 'Grocery List, ' + groceryListName + ', does not exist',
                 });
             }
         } else {
-            res.status(501);
-            res.json({ error: 'User, ' + username + ', does not exist' });
+            return res.status(501).json({ error: 'User, ' + username + ', does not exist' });
         }
     });
 });
@@ -398,13 +401,6 @@ app.delete('/deleteList', (req, res) => {
 //
 // use date stamp to keep track of grocery list
 
-/*
-let ref =  firebase.database().ref();
-ref.once("value").then( function(snapshot) {
-    let name = snapshot.child("hey").val();
-    console.log(name);
-});
-*/
 
 // app.get("/getGroceryItems")
 // send back all items in grocery store
