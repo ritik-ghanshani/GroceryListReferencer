@@ -166,7 +166,6 @@ app.delete('/logout', (req, res) => {
 
 app.get('/getUserLists', function (req, res) {
     let username = req.query.user;
-    let groceryListName = req.query.groceryList;
 
     if(!username) {
         res.status(400);
@@ -176,7 +175,6 @@ app.get('/getUserLists', function (req, res) {
     let userRef = firebase.database().ref('users');
     userRef.once('value', (snapshot) => {
         //checks user exists
-
         if (snapshot.child(username).exists()) {
             let groceryListSnapshot = snapshot.child(username);
             res.json(groceryListSnapshot.val());
@@ -298,7 +296,40 @@ function checkParameter(param, paramString, res) {
 // return json object {product:[ true/false, numAvailableInGroceryStore]} based on availability
 // maybe how much is in store?
 //
-//
+app.get("/checkAvail?user=xxx&groceryList=yyy", (req, res) =>{
+    let username = req.query.user;
+    let groceryListName = req.query.groceryList;
+
+    let listOfParams = [username, groceryListName];
+    let listOfParamsString = ['User Name', 'Grocery List Name'];
+    for (let i = 0; i < listOfParams.length; i++) {
+        if (!checkParameter(listOfParams[i], listOfParamsString[i], res))
+            return;
+    }
+    var userRef = firebase.database().ref('users');
+    userRef.once('value', (snapshot) => {
+        //checks user exists
+        if (snapshot.child(username).exists()) {
+            let groceryListSnapshot = snapshot
+                .child(username)
+                .child(groceryListName);
+            if (groceryListSnapshot.exists()) {
+                let groceryListContents = groceryListSnapshot.val();
+                
+                res.json(groceryListSnapshot.val());
+            } else {
+                res.status(501);
+                res.json({
+                    error:
+                        'Grocery List, ' + groceryListName + ', does not exist',
+                });
+            }
+        } else {
+            res.status(501);
+            res.json({ error: 'User, ' + username + ', does not exist' });
+        }
+    });
+});
 //
 // app.delete("/deleteList?user=xxx&groceryList=yyy"
 // send status back
