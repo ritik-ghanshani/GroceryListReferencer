@@ -70,6 +70,7 @@ app.post('/register', (req, res) => {
                     }
                 }
             );
+
             console.log(emailParsed);
             if (alreadyExists) {
                 return res
@@ -127,6 +128,7 @@ firebase.auth().onAuthStateChanged((firebaseUser) => {
 });
 
 app.get('/logged_in', (req, res) => {
+    let email = req.query.email;
     let currentUser = firebase.auth().currentUser;
     if (currentUser) {
         let email = currentUser.email;
@@ -155,7 +157,7 @@ app.delete('/logout', (req, res) => {
 });
 //
 // app.get("/getUserLists?user=xxx", function(req,res) {
-// return status
+    // return stalet tus
 // return names of already existing grocery lists
 
 // app.get("/retrieveGroceryList?user=xxx&groceryList=yyy",
@@ -164,18 +166,15 @@ app.delete('/logout', (req, res) => {
 
 app.get('/getUserLists', function (req, res) {
     let username = req.query.user;
-    let groceryListName = req.query.groceryList;
 
-    let listOfParams = [username, groceryListName];
-    let listOfParamsString = ['User Name', 'Grocery List Name'];
-    for (let i = 0; i < listOfParams.length; i++) {
-        if (!checkParameter(listOfParams[i], listOfParamsString[i], res))
-            return;
+    if(!username) {
+        res.status(400);
+        res.json({ error: 'No username provided' });
+        return
     }
     let userRef = firebase.database().ref('users');
     userRef.once('value', (snapshot) => {
         //checks user exists
-
         if (snapshot.child(username).exists()) {
             let groceryListSnapshot = snapshot.child(username);
             res.json(groceryListSnapshot.val());
@@ -297,7 +296,51 @@ function checkParameter(param, paramString, res) {
 // return json object {product:[ true/false, numAvailableInGroceryStore]} based on availability
 // maybe how much is in store?
 //
-//
+app.get("/checkAvail", (req, res) =>{
+    let username = req.query.user;
+    let groceryListName = req.query.groceryList;
+
+    let listOfParams = [username, groceryListName];
+    let listOfParamsString = ['User Name', 'Grocery List Name'];
+    for (let i = 0; i < listOfParams.length; i++) {
+        if (!checkParameter(listOfParams[i], listOfParamsString[i], res))
+            return;
+    }
+    let userRef = firebase.database().ref('users');
+    let groceryStoreRef = firebase.database().ref('groceryStore');
+    
+    userRef.once('value', (snapshot) => {
+        //checks user exists
+        if (snapshot.child(username).exists()) {
+            let groceryListSnapshot = snapshot
+                .child(username)
+                .child(groceryListName);
+            if (groceryListSnapshot.exists()) {
+                let groceryListContents = groceryListSnapshot.val();
+                groceryStoreRef.once('value', (groceryStoreSnapshot) => {
+                    let groceryStoreContents = groceryStoreSnapshot.val();
+                    let availGroceryItems = {};
+                    for (groceryItem in groceryListContents){
+                        if (!(groceryItem in groceryStoreContents))
+                            availGroceryItems[groceryItem] = [false, -1];
+                        else if(groceryListContents[groceryItem] > groceryStoreContents[groceryItem]){
+                            availGroceryItems[groceryItem] = [false, (groceryListContents[groceryItem] - groceryStoreContents[groceryItem])];
+                        } else {
+                            availGroceryItems[groceryItem] = [true, 0];
+                        }
+                    }
+                return res.json(availGroceryItems);
+                })
+            } else {
+                return res.status(501).json({
+                    error: 'Grocery List, ' + groceryListName + ', does not exist',
+                });
+            }
+        } else {
+            return res.status(501).json({ error: 'User, ' + username + ', does not exist' });
+        }
+    });
+});
 //
 // app.delete("/deleteList?user=xxx&groceryList=yyy"
 // send status back
@@ -358,13 +401,6 @@ app.delete('/deleteList', (req, res) => {
 //
 // use date stamp to keep track of grocery list
 
-/*
-let ref =  firebase.database().ref();
-ref.once("value").then( function(snapshot) {
-    let name = snapshot.child("hey").val();
-    console.log(name);
-});
-*/
 
 // app.get("/getGroceryItems")
 // send back all items in grocery store
