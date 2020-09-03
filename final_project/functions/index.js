@@ -315,7 +315,15 @@ app.get("/checkAvail", (req, res) =>{
                 .child(groceryListName);
             if (groceryListSnapshot.exists()) {
                 let groceryListContents = groceryListSnapshot.val();
-                
+                let groceryStoreContents = snapshot.child("groceryStore");
+                let availGroceryItems = {};
+                for (groceryItem in groceryListContents){
+                    if(groceryListContents[groceryItem] > groceryStoreContents[groceryItem]){
+                        availGroceryItems[groceryItem] = [false, (groceryListContents[groceryItem] - groceryStoreContents[groceryItem])];
+                    } else {
+                        availGroceryItems[groceryItem] = [true, 0];
+                    }
+                }
                 res.json(groceryListSnapshot.val());
             } else {
                 res.status(501);
