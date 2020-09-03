@@ -24,15 +24,27 @@ export class Login extends Component {
     validateSubmit(event) {
         const { email, password } = this.state;
         axios
+<<<<<<< HEAD
             .post('/userSubmit', {
                 user: {
                     email,
                     password,
                 },
             })
+=======
+            .post(
+                '/userSubmit', 
+                {
+                    user: {
+                        email,
+                        password,
+                    },
+                }
+            )
+>>>>>>> 3b34e076571255f736253e62aa4ef3d247af29cd
             .then((response) => {
                 if (response.data.logged_in) {
-                    this.props.validateSuccesAuth(response.data);
+                    this.props.validateSuccessfulAuth(response.data);
                 }
             })
             .catch((error) => {
@@ -45,9 +57,9 @@ export class Login extends Component {
         return (
             <div id="modal" className="App">
                 <h1 id="header">Login Page</h1>
-                <form>
+                <form onSubmit={this.validateSubmit}>
                     <input
-                        type="text"
+                        type="email"
                         name="email"
                         placeholder="Email"
                         value={this.state.email}
