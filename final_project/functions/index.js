@@ -219,11 +219,12 @@ app.get("/getUserLists", function(req,res) {
     var userRef = firebase.database().ref('users');
     userRef.once('value', (snapshot) => {
         //checks user exists
-
         if (snapshot.child(username).exists()) {
             let groceryListSnapshot = snapshot
                 .child(username);
-            res.json(groceryListSnapshot.val());
+            let groceryLists = groceryListSnapshot.val();
+            let groceryListNames = Object.keys(groceryLists);
+            res.json({"lists": groceryListNames});
             }
         } else {
             res.status(501);
