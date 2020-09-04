@@ -3,13 +3,15 @@ import './App.css';
 import { Login } from './components/Login';
 import { Home } from './components/Home';
 import { Register } from './components/Register';
+import { Reset } from './components/Reset';
 import NotFound from './components/NotFound';
 import axios from 'axios';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
+import { About } from './components/About';
+import { Contact } from './components/Contact';
 export default class App extends Component {
     constructor() {
         super();
-
         this.state = {
             loggedInStatus: 'NOT_LOGGED_IN',
             email: '',
@@ -74,7 +76,6 @@ export default class App extends Component {
                                 <Login
                                     {...props}
                                     validateLogin={this.validateLogin}
-                                    // validateLogout={this.validateLogout}
                                     loggedInStatus={this.state.loggedInStatus}
                                 />
                             )}
@@ -86,17 +87,41 @@ export default class App extends Component {
                                     {...props}
                                     loggedInStatus={this.state.loggedInStatus}
                                     validateLogout={this.validateLogout}
+                                    email={this.state.email}
                                 />
                             )}
                         />
                         <Route
-                            path={'/Register'}
+                            path={'/register'}
                             render={(props) => (
                                 <Register
                                     {...props}
                                     validateLogin={this.validateLogin}
-                                    // validateLogout={this.validateLogout}
                                     loggedInStatus={this.state.loggedInStatus}
+                                />
+                            )}
+                        />
+                        <Route
+                            path={'/Reset'}
+                            render={(props) => <Reset {...props} />}
+                        />
+                        <Route
+                            path={'/about'}
+                            render={(props) => (
+                                <About
+                                    {...props}
+                                    loggedInStatus={this.state.loggedInStatus}
+                                    validateLogout={this.validateLogout}
+                                />
+                            )}
+                        />
+                        <Route
+                            path={'/contact'}
+                            render={(props) => (
+                                <Contact
+                                    {...props}
+                                    loggedInStatus={this.state.loggedInStatus}
+                                    validateLogout={this.validateLogout}
                                 />
                             )}
                         />
