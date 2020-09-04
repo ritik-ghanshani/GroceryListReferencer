@@ -9,6 +9,8 @@ import axios from 'axios';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import { About } from './components/About';
 import { Contact } from './components/Contact';
+import { AddList } from './components/AddList';
+
 export default class App extends Component {
     constructor() {
         super();
@@ -32,7 +34,6 @@ export default class App extends Component {
                     this.setState({
                         loggedInStatus: 'LOGGED_IN',
                         email: response.data.email,
-                        allowLogin: true,
                     });
                 } else if (
                     !response.data.logged_in &&
@@ -59,12 +60,17 @@ export default class App extends Component {
             email: '',
         });
     }
+
     validateLogin(data) {
+        if (data.email.includes('.com')) {
+            data.email = data.email.slice(0, data.email.indexOf('.com'));
+        }
         this.setState({
             loggedInStatus: 'LOGGED_IN',
             email: data.email,
         });
     }
+
     render() {
         return (
             <div className="App">
@@ -92,7 +98,7 @@ export default class App extends Component {
                             )}
                         />
                         <Route
-                            path={'/Reset'}
+                            path={'/reset'}
                             render={(props) => <Reset {...props} />}
                         />
                         {this.state.loggedInStatus === 'LOGGED_IN' && (
@@ -131,6 +137,21 @@ export default class App extends Component {
                                 path={'/contact'}
                                 render={(props) => (
                                     <Contact
+                                        {...props}
+                                        email={this.state.email}
+                                        loggedInStatus={
+                                            this.state.loggedInStatus
+                                        }
+                                        validateLogout={this.validateLogout}
+                                    />
+                                )}
+                            />
+                        )}
+                        {this.state.loggedInStatus === 'LOGGED_IN' && (
+                            <Route
+                                path={'/addlist'}
+                                render={(props) => (
+                                    <AddList
                                         {...props}
                                         email={this.state.email}
                                         loggedInStatus={

@@ -14,7 +14,7 @@ export class NavBar extends Component {
     validateLogoutClick() {
         axios
             .delete('/logout')
-            .then((response) => {
+            .then(() => {
                 this.props.validateLogout();
                 this.props.history.push('/');
             })
@@ -22,6 +22,7 @@ export class NavBar extends Component {
                 console.log('logout error', error);
             });
     }
+
     render() {
         const myStyle = {
             color: '#101336',
@@ -60,7 +61,11 @@ export class NavBar extends Component {
                         </Nav.Link>
                     </Nav>
                     <Dropdown>
-                        <Dropdown.Toggle variant="dark" id="dropdown-basic">
+                        <Dropdown.Toggle
+                            style={{ background: myStyle.color }}
+                            variant="dark"
+                            id="dropdown-basic"
+                        >
                             <IconContext.Provider
                                 value={{
                                     color: 'white',
@@ -74,7 +79,9 @@ export class NavBar extends Component {
                             {this.props.email}
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
-                            <Dropdown.Item>Add List</Dropdown.Item>
+                            <Dropdown.Item href="/addlist">
+                                Add List
+                            </Dropdown.Item>
                             <Dropdown.Item>View Lists</Dropdown.Item>
                             <Dropdown.Item onClick={this.validateLogoutClick}>
                                 Logout
