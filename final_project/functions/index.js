@@ -102,7 +102,7 @@ app.post('/userSubmit', (req, res) => {
         .auth()
         .signInWithEmailAndPassword(email, password)
         .then(() => {
-            let email = firebase.auth().currentUser;
+            let emailAuth = firebase.auth().currentUser.email;
             res.json({ logged_in: true, email });
         })
         .catch((error) => {
