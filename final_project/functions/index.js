@@ -413,6 +413,45 @@ app.delete('/deleteList', (req, res) => {
 //
 // use date stamp to keep track of grocery list
 
+app.put("/updateList", (req, res) => {
+    let username = req.query.user;
+    let groceryListName = req.query.groceryList;
+    let groceryListContents = req.body;
+    let listOfParams = [username, groceryListName, groceryListContents];
+    let listOfParamsString = [
+        'User Name',
+        'Grocery List Name',
+        'Grocery List Contents',
+    ];
+    for (let i = 0; i < listOfParams.length; i++) {
+        if (!checkParameter(listOfParams[i], listOfParamsString[i], res))
+            return;
+    }
+
+    let userRef = firebase.database().ref('users');
+    userRef.once('value', (snapshot) => {
+        //checks user exists
+        if (snapshot.child(username).exists()) {
+            let groceryListNameRef = userRef
+                .child(username)
+                .child(groceryListName);
+            
+            groceryListNameRef.update(groceryListContents, error => {
+                if (error) {
+                        res.status(500).json({
+                            error: 'Unknown Internal Server Error',
+                        });
+                    } else {
+                        console.log(groceryListName + ' was updated!');
+                        res.send();
+                    }
+            });  
+        } else {
+            res.status(501).json({ error: 'User does not exist' });
+        }
+    });
+});
+
 // app.get("/getGroceryItems")
 // send back all items in grocery store
 app.get('/getGroceryItems', function (req, res) {
