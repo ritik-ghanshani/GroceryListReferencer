@@ -136,10 +136,10 @@ firebase.auth().onAuthStateChanged((firebaseUser) => {
 
 app.get('/logged_in', (req, res) => {
     let email = req.query.email;
-    email = email.split(".")[0];
+    console.log(email);
     let currentUser = firebase.auth().currentUser;
     if (currentUser) {
-        let email = currentUser.email;
+        email = currentUser.email;
         email = email.split(".")[0];
         console.log('current user is:', email);
         res.json({ logged_in: true, email });
@@ -334,9 +334,9 @@ app.get("/checkAvail", (req, res) =>{
                         if (!(groceryItem in groceryStoreContents))
                             availGroceryItems[groceryItem] = [false, -1];
                         else if(groceryListContents[groceryItem] > groceryStoreContents[groceryItem]){
-                            availGroceryItems[groceryItem] = [false, (groceryListContents[groceryItem] - groceryStoreContents[groceryItem])];
+                            availGroceryItems[groceryItem] = [false, groceryStoreContents[groceryItem]];
                         } else {
-                            availGroceryItems[groceryItem] = [true, 0];
+                            availGroceryItems[groceryItem] = [true, groceryStoreContents[groceryItem]];
                         }
                     }
                 return res.json(availGroceryItems);
@@ -351,7 +351,10 @@ app.get("/checkAvail", (req, res) =>{
         }
     });
 });
-//
+
+
+
+
 // app.delete("/deleteList?user=xxx&groceryList=yyy"
 // send status back
 // PROBLEM: IF A USER HAS 1 GROCERY LIST, THE USER WILL BE DELETED AS WELL
