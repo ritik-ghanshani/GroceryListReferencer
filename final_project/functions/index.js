@@ -329,20 +329,8 @@ app.get('/checkAvail', (req, res) => {
                     for (groceryItem in groceryListContents) {
                         if (!(groceryItem in groceryStoreContents))
                             availGroceryItems[groceryItem] = [false, -1];
-<<<<<<< HEAD
                         else if(groceryListContents[groceryItem] > groceryStoreContents[groceryItem]){
                             availGroceryItems[groceryItem] = [false, groceryStoreContents[groceryItem]];
-=======
-                        else if (
-                            groceryListContents[groceryItem] >
-                            groceryStoreContents[groceryItem]
-                        ) {
-                            availGroceryItems[groceryItem] = [
-                                false,
-                                groceryListContents[groceryItem] -
-                                    groceryStoreContents[groceryItem],
-                            ];
->>>>>>> cfeb8b938213b237e2edfcfd2b911a87d8afe615
                         } else {
                             availGroceryItems[groceryItem] = [true, groceryStoreContents[groceryItem]];
                         }
