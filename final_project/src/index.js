@@ -4,8 +4,6 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import * as firebase from 'firebase';
-import { About } from './components/About';
-import { Contact } from './components/Contact';
 
 const config = {
     apiKey: 'AIzaSyD1KuT744S0uB27hGWm35J638_-O5fYW08',

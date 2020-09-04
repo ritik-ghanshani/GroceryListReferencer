@@ -26,7 +26,6 @@ export class NavBar extends Component {
         const myStyle = {
             color: '#101336',
         };
-
         return (
             <Navbar
                 style={{ background: myStyle.color }}
@@ -37,14 +36,26 @@ export class NavBar extends Component {
                 <Navbar.Brand>Grocery List Referencer</Navbar.Brand>
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
-                        <Nav.Link className="d-inline p-2" href="/home">
+                        <Nav.Link
+                            //{...this.props}
+                            className="d-inline p-2"
+                            href="/home"
+                        >
                             Home
                         </Nav.Link>
                         <Nav.Link className="d-inline p-2">Products</Nav.Link>
-                        <Nav.Link className="d-inline p-2" href="/about">
+                        <Nav.Link
+                            {...this.props}
+                            className="d-inline p-2"
+                            href="/about"
+                        >
                             About Us
                         </Nav.Link>
-                        <Nav.Link className="d-inline p-2" href="/contact">
+                        <Nav.Link
+                            {...this.props}
+                            className="d-inline p-2"
+                            href="/contact"
+                        >
                             Contact
                         </Nav.Link>
                     </Nav>

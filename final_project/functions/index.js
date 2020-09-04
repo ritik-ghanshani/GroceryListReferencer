@@ -134,7 +134,6 @@ firebase.auth().onAuthStateChanged((firebaseUser) => {
 
 app.get('/logged_in', (req, res) => {
     let email = req.query.email;
-    email = email.split('.')[0];
     let currentUser = firebase.auth().currentUser;
     if (currentUser) {
         let email = currentUser.email;

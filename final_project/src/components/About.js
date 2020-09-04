@@ -6,7 +6,7 @@ export class About extends Component {
     render() {
         return (
             <div>
-                <NavBar />
+                <NavBar {...this.props} />
                 <div className="box">
                     <h3 id="header">About Us</h3>
                     <p id="desc">
