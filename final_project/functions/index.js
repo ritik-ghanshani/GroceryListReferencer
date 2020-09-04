@@ -290,13 +290,6 @@ app.post('/createGroceryList', (req, res) => {
     });
 });
 
-function checkParameter(param, paramString, res) {
-    if (!param || Object.keys(param).length === 0) {
-        console.log('No ' + paramString + ' provided');
-        res.status(400).json({ error: `No ${paramString} provided` });
-        return false;
-    } else return true;
-}
 //
 // app.get("/checkAvail?user=xxx&groceryList=yyy"
 // return json object {product:[ true/false, numAvailableInGroceryStore]} based on availability
@@ -465,10 +458,12 @@ app.get('/getGroceryItems', function (req, res) {
     });
 });
 
-/*
-app.listen(port, hostname, () => {
-    console.log(`Listening at: http://${hostname}:${port}`);
-});
-*/
+function checkParameter(param, paramString, res) {
+    if (!param || Object.keys(param).length === 0) {
+        console.log('No ' + paramString + ' provided');
+        res.status(400).json({ error: `No ${paramString} provided` });
+        return false;
+    } else return true;
+}
 
 exports.app = functions.https.onRequest(app);
