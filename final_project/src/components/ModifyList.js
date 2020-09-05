@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { NavBar } from './NavBar';
 import axios from 'axios';
+import { IconContext } from 'react-icons';
+import { AiOutlineCheckCircle, AiOutlineCloseCircle } from 'react-icons/ai';
 
 export class ModifyList extends Component {
     constructor(props) {
@@ -11,58 +13,99 @@ export class ModifyList extends Component {
             currentGroceryList: {},
             userInputList: [],
             error: '',
+            available: {},
+            availableList: [],
         };
 
         this.getData = this.getData.bind(this);
+        this.checkData = this.checkData.bind(this);
         this.mergeData = this.mergeData.bind(this);
         this.handleName = this.handleName.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.delete= this.delete.bind(this);
+        this.delete = this.delete.bind(this);
         this.getData();
     }
 
-    
     getData() {
         axios
             .get('/getGroceryItems')
             .then((response) => {
-                this.setState({ data: response.data }, () => console.log("Synced All Items"));
+                this.setState({ data: response.data });
             })
             .catch((err) => {
                 this.setState({ error: err.response });
             });
         axios
-            .get(`/retrieveGroceryList?user=${this.props.email}&&groceryList=${ this.props.location.state.listName}`)
+            .get(
+                `/retrieveGroceryList?user=${this.props.email}&&groceryList=${this.props.location.state.listName}`
+            )
             .then((response) => {
-                this.setState({ currentGroceryList: response.data }, this.mergeData);
+                this.setState(
+                    { currentGroceryList: response.data },
+                    this.mergeData
+                );
             })
             .catch((err) => {
-                //this.setState({error : })
+                this.setState({ error: err.response });
+            });
+        axios
+            .get(
+                `/checkAvail?user=${this.props.email}&&groceryList=${this.props.location.state.listName}`
+            )
+            .then((response) => {
+                this.setState({ available: response.data }, this.checkData);
+            })
+            .catch((err) => {
                 this.setState({ error: err.response });
             });
     }
 
+    delete() {
+        axios
+            .delete(
+                `/deleteList?user=${this.props.email}&&groceryList=${this.props.location.state.listName}`
+            )
+            .then(() => {
+                this.props.history.push('/home');
+            })
+            .catch((error) => {
+                console.log('delete error', error);
+            });
+    }
 
-    delete(){
-        axios.delete(`/deleteList?user=${this.props.email}&&groceryList=${this.props.location.state.listName}`).then(()=>{
-            this.props.history.push('/home');
-        }).catch((error) =>{
-            console.log('delete error', error);
-        })};
-
-    mergeData(){
+    mergeData() {
         let arr = Object.keys(this.state.data);
         let arr2 = [];
         for (let i = 0; i < arr.length; i++) {
-            if(this.state.currentGroceryList[arr[i]]){
-                 arr2.push({
-                index: i,
-                product: arr[i],
-                quantity: this.state.currentGroceryList[arr[i]],
-            });
-        }}
-        this.setState({ userInputList: arr2 }, () => console.log(this.state.userInputList) );
+            if (this.state.currentGroceryList[arr[i]]) {
+                arr2.push({
+                    index: i,
+                    product: arr[i],
+                    quantity: this.state.currentGroceryList[arr[i]],
+                });
+            }
+        }
+        this.setState({ userInputList: arr2 }, () => {
+            console.log(this.state.userInputList);
+        });
+    }
+
+    checkData() {
+        let arr = Object.keys(this.state.data);
+        let arr2 = [];
+        for (let i = 0; i < arr.length; i++) {
+            if (this.state.available[arr[i]]) {
+                arr2.push({
+                    index: i,
+                    product: arr[i],
+                    available: this.state.available[arr[i]][0],
+                });
+            }
+        }
+        this.setState({ availableList: arr2 }, () =>
+            console.log(this.state.availableList)
+        );
     }
 
     handleName(event) {
@@ -85,7 +128,7 @@ export class ModifyList extends Component {
         } else if (exists === -1 && quantity !== 0) {
             userInputs.push({ index, product: element, quantity });
         }
-        this.setState({ userInputList: userInputs });
+        this.setState({ userInputList: userInputs }, this.checkData);
     }
 
     handleSubmit(event) {
@@ -102,7 +145,6 @@ export class ModifyList extends Component {
                 this.props.history.push('/home');
             })
             .catch((err) => {
-                console.log(err.response);
                 this.setState({ error: err.response.data.error });
             });
         event.preventDefault();
@@ -129,8 +171,6 @@ export class ModifyList extends Component {
                                     required
                                     autoFocus
                                 />
-
-                                
                             </div>
                         </span>
                         {nameArray.map((x, index) => (
@@ -142,7 +182,7 @@ export class ModifyList extends Component {
                                         id="quantity"
                                         name="quantity"
                                         min="0"
-                                        defaultValue={ 
+                                        defaultValue={
                                             this.state.userInputList.find(
                                                 (element) =>
                                                     element.index === index
@@ -152,11 +192,40 @@ export class ModifyList extends Component {
                                             this.handleChange(index, x, event)
                                         }
                                     />
+                                    {this.state.availableList.find(
+                                        (element) =>
+                                            (element.index === index &&
+                                                element.available === true) ||
+                                            !this.state.currentGroceryList[x]
+                                    ) ? (
+                                        <IconContext.Provider
+                                            value={{
+                                                color: 'green',
+                                                className: 'global-class-name',
+                                            }}
+                                        >
+                                            <span>
+                                                <AiOutlineCheckCircle />
+                                            </span>
+                                        </IconContext.Provider>
+                                    ) : (
+                                        <IconContext.Provider
+                                            value={{
+                                                color: 'red',
+                                                className: 'global-class-name',
+                                            }}
+                                        >
+                                            <span>
+                                                <AiOutlineCloseCircle />
+                                            </span>
+                                        </IconContext.Provider>
+                                    )}
                                 </div>
                             </div>
                         ))}
                         <button type="submit">Update List</button>
-                    </form><button onClick={this.delete}>X</button>
+                    </form>
+                    <button onClick={this.delete}>X</button>
                     <p className="p-error">{this.state.error}</p>
                 </div>
             </div>

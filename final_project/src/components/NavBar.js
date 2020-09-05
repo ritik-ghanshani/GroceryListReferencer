@@ -44,10 +44,13 @@ export class NavBar extends Component {
                         >
                             Home
                         </Nav.Link>
-                        <Nav.Link 
+                        <Nav.Link
                             {...this.props}
                             className="d-inline p-2"
-                            href="/products">Products</Nav.Link>
+                            href="/products"
+                        >
+                            Products
+                        </Nav.Link>
                         <Nav.Link
                             {...this.props}
                             className="d-inline p-2"
@@ -85,7 +88,9 @@ export class NavBar extends Component {
                             <Dropdown.Item href="/addlist">
                                 Add List
                             </Dropdown.Item>
-                            <Dropdown.Item href="/home">View Lists</Dropdown.Item>
+                            <Dropdown.Item href="/home">
+                                View Lists
+                            </Dropdown.Item>
                             <Dropdown.Item onClick={this.validateLogoutClick}>
                                 Logout
                             </Dropdown.Item>

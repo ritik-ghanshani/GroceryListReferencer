@@ -64,8 +64,8 @@ export default class App extends Component {
     }
 
     validateLogin(data) {
-        if (data.email.includes('.com')) {
-            data.email = data.email.slice(0, data.email.indexOf('.com'));
+        if (data.email.includes('.')) {
+            data.email = data.email.slice(0, data.email.indexOf('.'));
         }
         this.setState({
             loggedInStatus: 'LOGGED_IN',
