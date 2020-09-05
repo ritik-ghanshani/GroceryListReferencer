@@ -1,8 +1,12 @@
 # GroceryListReferencer
 
+## Introduction
+
+This is a team-based project that was developed by 5 young minds in a span of 5 weeks. Written for our Mobile and Web Development class, this project is a Grocery List Cross-Referencer, created to help shoppers during the COVID-19 pandemic by creating lists of items that they need and checking if such items are available in the store.
+
 ## Getting Started
 
-Dependencies and Pre-Requisites: 
+### Dependencies and Pre-Requisites: 
 ```
 "@testing-library/jest-dom": "^4.2.4",
 "@testing-library/react": "^9.5.0",
@@ -25,19 +29,24 @@ git
 ```
         
 ### How to run:
-    - Step 1: Clone the repository using git to the computer.
 
-    - Step 2: run `npm i` in GroceryListReferencer/final_project/functions folder and  GroceryListReferencer/final_project folder.
+* Step 1: Clone the repository using git to the computer.
+
+* Step 2: run `npm i` in `GroceryListReferencer/final_project/functions` folder and  `GroceryListReferencer/final_project` folder.
          
-    - Step 3: Paste `.env.json` in the `GroceryListReferencer/final_project` folder as it contains the API Keys and Firebase configurations. 
+* Step 3: Paste `.env.json` in the `GroceryListReferencer/final_project` folder as it contains the API Keys and Firebase configurations. 
 
-    - Step 4: run `npm run dev` in `GroceryListReferencer/final_project` folder. 
+* Step 4: run `npm run dev` in `GroceryListReferencer/final_project` folder. 
 
-    - Step 5: The application should open in the default browser. 
+* Step 5: The application should open in the default browser. 
 
 ## Authors
 Sameh Abedin
+
 Anthony Goncharenko
+
 Ritik Ghanshani
+
 Kevin Karnani
+
 Fiona Sarno
