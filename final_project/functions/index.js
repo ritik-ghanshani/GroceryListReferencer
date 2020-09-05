@@ -13,7 +13,7 @@ const app = express();
 //const cors = require('cors');
 
 const firebase = require('firebase');
-const firebaseEnvFile = require('../.env.json')
+const firebaseEnvFile = require('../.env.json');
 app.use(express.json());
 
 const config = {
@@ -23,7 +23,7 @@ const config = {
     projectId: firebaseEnvFile['PROJECT_ID'],
     storageBucket: firebaseEnvFile['STORAGE_BUCKET'],
     messagingSenderId: firebaseEnvFile['MESSAGING_SENDER_ID'],
-    appId: firebaseEnvFile['APP_ID'], 
+    appId: firebaseEnvFile['APP_ID'],
     measurementId: firebaseEnvFile['MEASUREMENT_ID'],
 };
 
@@ -102,7 +102,7 @@ app.post('/userSubmit', (req, res) => {
         .auth()
         .signInWithEmailAndPassword(email, password)
         .then(() => {
-            let emailAuth = firebase.auth().currentUser.email;
+            let email = firebase.auth().currentUser;
             res.json({ logged_in: true, email });
         })
         .catch((error) => {
@@ -136,7 +136,7 @@ app.get('/logged_in', (req, res) => {
     let currentUser = firebase.auth().currentUser;
     if (currentUser) {
         email = currentUser.email;
-        email = email.split(".")[0];
+        email = email.split('.')[0];
         console.log('current user is:', email);
         res.json({ logged_in: true, email });
     } else {
@@ -321,10 +321,19 @@ app.get('/checkAvail', (req, res) => {
                     for (groceryItem in groceryListContents) {
                         if (!(groceryItem in groceryStoreContents))
                             availGroceryItems[groceryItem] = [false, -1];
-                        else if(groceryListContents[groceryItem] > groceryStoreContents[groceryItem]){
-                            availGroceryItems[groceryItem] = [false, groceryStoreContents[groceryItem]];
+                        else if (
+                            groceryListContents[groceryItem] >
+                            groceryStoreContents[groceryItem]
+                        ) {
+                            availGroceryItems[groceryItem] = [
+                                false,
+                                groceryStoreContents[groceryItem],
+                            ];
                         } else {
-                            availGroceryItems[groceryItem] = [true, groceryStoreContents[groceryItem]];
+                            availGroceryItems[groceryItem] = [
+                                true,
+                                groceryStoreContents[groceryItem],
+                            ];
                         }
                     }
                     return res.json(availGroceryItems);
@@ -342,9 +351,6 @@ app.get('/checkAvail', (req, res) => {
         }
     });
 });
-
-
-
 
 // app.delete("/deleteList?user=xxx&groceryList=yyy"
 // send status back
@@ -405,7 +411,7 @@ app.delete('/deleteList', (req, res) => {
 //
 // use date stamp to keep track of grocery list
 
-app.put("/updateList", (req, res) => {
+app.put('/updateList', (req, res) => {
     let username = req.query.user;
     let groceryListName = req.query.groceryList;
     let groceryListContents = req.body;
@@ -427,17 +433,17 @@ app.put("/updateList", (req, res) => {
             let groceryListNameRef = userRef
                 .child(username)
                 .child(groceryListName);
-            
-            groceryListNameRef.update(groceryListContents, error => {
+
+            groceryListNameRef.update(groceryListContents, (error) => {
                 if (error) {
-                        res.status(500).json({
-                            error: 'Unknown Internal Server Error',
-                        });
-                    } else {
-                        console.log(groceryListName + ' was updated!');
-                        res.send();
-                    }
-            });  
+                    res.status(500).json({
+                        error: 'Unknown Internal Server Error',
+                    });
+                } else {
+                    console.log(groceryListName + ' was updated!');
+                    res.send();
+                }
+            });
         } else {
             res.status(501).json({ error: 'User does not exist' });
         }

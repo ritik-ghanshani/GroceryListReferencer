@@ -9,6 +9,10 @@ import axios from 'axios';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import { About } from './components/About';
 import { Contact } from './components/Contact';
+import { AddList } from './components/AddList';
+import { ModifyList } from './components/ModifyList';
+import { Products } from './components/Products';
+
 export default class App extends Component {
     constructor() {
         super();
@@ -58,12 +62,17 @@ export default class App extends Component {
             email: '',
         });
     }
+
     validateLogin(data) {
+        if (data.email.includes('.')) {
+            data.email = data.email.slice(0, data.email.indexOf('.'));
+        }
         this.setState({
             loggedInStatus: 'LOGGED_IN',
             email: data.email,
         });
     }
+
     render() {
         return (
             <div className="App">
@@ -81,17 +90,6 @@ export default class App extends Component {
                             )}
                         />
                         <Route
-                            path={'/home'}
-                            render={(props) => (
-                                <Home
-                                    {...props}
-                                    loggedInStatus={this.state.loggedInStatus}
-                                    validateLogout={this.validateLogout}
-                                    email={this.state.email}
-                                />
-                            )}
-                        />
-                        <Route
                             path={'/register'}
                             render={(props) => (
                                 <Register
@@ -102,29 +100,100 @@ export default class App extends Component {
                             )}
                         />
                         <Route
-                            path={'/Reset'}
+                            path={'/reset'}
                             render={(props) => <Reset {...props} />}
                         />
-                        <Route
-                            path={'/about'}
-                            render={(props) => (
-                                <About
-                                    {...props}
-                                    loggedInStatus={this.state.loggedInStatus}
-                                    validateLogout={this.validateLogout}
-                                />
-                            )}
-                        />
-                        <Route
-                            path={'/contact'}
-                            render={(props) => (
-                                <Contact
-                                    {...props}
-                                    loggedInStatus={this.state.loggedInStatus}
-                                    validateLogout={this.validateLogout}
-                                />
-                            )}
-                        />
+                        {this.state.loggedInStatus === 'LOGGED_IN' && (
+                            <Route
+                                path={'/home'}
+                                render={(props) => (
+                                    <Home
+                                        {...props}
+                                        loggedInStatus={
+                                            this.state.loggedInStatus
+                                        }
+                                        validateLogout={this.validateLogout}
+                                        email={this.state.email}
+                                        checkLoginStatus={this.checkLoginStatus}
+                                    />
+                                )}
+                            />
+                        )}
+                        {this.state.loggedInStatus === 'LOGGED_IN' && (
+                            <Route
+                                path={'/about'}
+                                render={(props) => (
+                                    <About
+                                        {...props}
+                                        email={this.state.email}
+                                        loggedInStatus={
+                                            this.state.loggedInStatus
+                                        }
+                                        validateLogout={this.validateLogout}
+                                    />
+                                )}
+                            />
+                        )}
+                        {this.state.loggedInStatus === 'LOGGED_IN' && (
+                            <Route
+                                path={'/contact'}
+                                render={(props) => (
+                                    <Contact
+                                        {...props}
+                                        email={this.state.email}
+                                        loggedInStatus={
+                                            this.state.loggedInStatus
+                                        }
+                                        validateLogout={this.validateLogout}
+                                    />
+                                )}
+                            />
+                        )}
+                        {this.state.loggedInStatus === 'LOGGED_IN' && (
+                            <Route
+                                path={'/addlist'}
+                                render={(props) => (
+                                    <AddList
+                                        {...props}
+                                        email={this.state.email}
+                                        loggedInStatus={
+                                            this.state.loggedInStatus
+                                        }
+                                        validateLogout={this.validateLogout}
+                                    />
+                                )}
+                            />
+                        )}
+                        {this.state.loggedInStatus === 'LOGGED_IN' && (
+                            <Route
+                                path={'/modify'}
+                                render={(props) => (
+                                    <ModifyList
+                                        {...props}
+                                        email={this.state.email}
+                                        loggedInStatus={
+                                            this.state.loggedInStatus
+                                        }
+                                        validateLogout={this.validateLogout}
+                                    />
+                                )}
+                            />
+                        )}
+                        {this.state.loggedInStatus === 'LOGGED_IN' && (
+                            <Route
+                                path={'/products'}
+                                render={(props) => (
+                                    <Products
+                                        {...props}
+                                        email={this.state.email}
+                                        loggedInStatus={
+                                            this.state.loggedInStatus
+                                        }
+                                        validateLogout={this.validateLogout}
+                                    />
+                                )}
+                            />
+                        )}
                         <Route component={NotFound} />
                     </Switch>
                 </Router>

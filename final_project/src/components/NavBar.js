@@ -14,7 +14,7 @@ export class NavBar extends Component {
     validateLogoutClick() {
         axios
             .delete('/logout')
-            .then((response) => {
+            .then(() => {
                 this.props.validateLogout();
                 this.props.history.push('/');
             })
@@ -22,11 +22,11 @@ export class NavBar extends Component {
                 console.log('logout error', error);
             });
     }
+
     render() {
         const myStyle = {
             color: '#101336',
         };
-
         return (
             <Navbar
                 style={{ background: myStyle.color }}
@@ -37,19 +37,41 @@ export class NavBar extends Component {
                 <Navbar.Brand>Grocery List Referencer</Navbar.Brand>
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
-                        <Nav.Link className="d-inline p-2" href="/home">
+                        <Nav.Link
+                            //{...this.props}
+                            className="d-inline p-2"
+                            href="/home"
+                        >
                             Home
                         </Nav.Link>
-                        <Nav.Link className="d-inline p-2">Products</Nav.Link>
-                        <Nav.Link className="d-inline p-2" href="/about">
+                        <Nav.Link
+                            {...this.props}
+                            className="d-inline p-2"
+                            href="/products"
+                        >
+                            Products
+                        </Nav.Link>
+                        <Nav.Link
+                            {...this.props}
+                            className="d-inline p-2"
+                            href="/about"
+                        >
                             About Us
                         </Nav.Link>
-                        <Nav.Link className="d-inline p-2" href="/contact">
+                        <Nav.Link
+                            {...this.props}
+                            className="d-inline p-2"
+                            href="/contact"
+                        >
                             Contact
                         </Nav.Link>
                     </Nav>
                     <Dropdown>
-                        <Dropdown.Toggle variant="dark" id="dropdown-basic">
+                        <Dropdown.Toggle
+                            style={{ background: myStyle.color }}
+                            variant="dark"
+                            id="dropdown-basic"
+                        >
                             <IconContext.Provider
                                 value={{
                                     color: 'white',
@@ -63,8 +85,12 @@ export class NavBar extends Component {
                             {this.props.email}
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
-                            <Dropdown.Item>Add List</Dropdown.Item>
-                            <Dropdown.Item>View Lists</Dropdown.Item>
+                            <Dropdown.Item href="/addlist">
+                                Add List
+                            </Dropdown.Item>
+                            <Dropdown.Item href="/home">
+                                View Lists
+                            </Dropdown.Item>
                             <Dropdown.Item onClick={this.validateLogoutClick}>
                                 Logout
                             </Dropdown.Item>

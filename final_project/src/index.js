@@ -3,8 +3,6 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { About } from './components/About';
-import { Contact } from './components/Contact';
 
 
 ReactDOM.render(

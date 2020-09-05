@@ -1,5 +1,12 @@
+body{
+    height: 100%;
+    width: 100%;
+}
+
 .App {
     text-align: center;
+    height: 100%;
+    width: 100%;
 }
 
 .App-logo {
@@ -34,8 +41,8 @@ body {
 
 #modal {
     background-color: #3a3a3a;
-    width: 400px;
-    height: 400px;
+    width: 450px;
+    height: 450px;
     margin: 7em auto;
     border-radius: 1.5em;
     box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
@@ -55,8 +62,9 @@ button {
 }
 
 #registerlogin {
-    border: 2px solid #4CAF50;
-    background-color: #4CAF50;
+    border: 2px solid #101336;
+    background-color: #101336;
+    color: white;
 }
 
 #header {
@@ -92,6 +100,7 @@ input {
     padding-left: 5px;
     color: white;
 }
+
 .p-error {
     font-size: 12px;
     margin-top: 9px;
@@ -99,6 +108,7 @@ input {
     padding-left: 3px;
     color: red;
 }
+
 .loglink {
     color: white;
     text-decoration: none;
@@ -109,17 +119,138 @@ input {
     transition: all .4s ease-out;
 }
 
-.box{
-    background-color: rgba(93, 62, 105, 0.7);
+.box {
     width: 700px;
     height: 70vh;
     margin: 5vh auto;
-    border-radius: 1em;
     box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
     text-align: center;
     font-size: 18px;
+    border: 3px solid white;
+    background: rgba(37, 22, 92, 0.7);
+    overflow: scroll;
+    overflow-x: hidden;
 }
 
-a{
+.boxProduct {
+    width: 700px;
+    height: 70vh;
+    margin: 5vh auto;
+    box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
+    text-align: center;
+    font-size: 18px;
+    border: 3px solid white;
+    background: rgba(37, 22, 92, 0.7);
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+a {
     color: rgb(255, 255, 0)
+}
+
+.header {
+    color: white;
+}
+
+.grid-header {
+    grid-area: header;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 200px 400px;
+    grid-template-rows: 70px;
+    padding: 5px;
+    grid-gap: 50px 50px;
+    margin: auto;
+}
+
+
+.grid-containerProduct {
+    display: grid;
+    grid-template-rows: 70px;
+    padding: 5px;
+    grid-gap: 50px 50px;
+    margin: auto;
+}
+
+.grid-item {
+    border: 1px solid #9e9e9e;
+    font-size: 16px;
+    text-align: center;
+    color: white;
+    text-transform: capitalize;
+
+}
+
+.grid-itemProduct {
+    border: 1px solid #9e9e9e;
+    font-size: 25px;
+    text-align: center;
+    color: white;
+    text-transform: capitalize;
+
+}
+#parentGrid{
+    display: grid;
+    grid-template-columns: 80% 20%;
+    height: 80vh;
+    width: 60vw;
+    margin: 5vh auto;
+    background: rgba(37, 22, 92, 0.7)
+}
+
+#parentLists{
+    display: grid;
+    grid-column-start: 1;
+    border: 3px solid #FFFFFF;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+#parentButton{
+    grid-column-start: 2;
+    border: 3px solid #FFFFFF;
+    border-left: 0px;
+    display: grid;
+}
+
+#container{
+    height: 100%;
+    width: 100%;
+    text-align: center;
+}
+
+#addButton{
+    height: 20vh;
+    width: 10vw;
+    border-radius: 20vh;
+    color:black;
+    font-size: 5vh;
+    align-self: center;
+    justify-self: center;
+}
+
+#listsTable{
+    overflow:auto;
+    display: grid;
+    justify-items: center;
+}
+
+.listRow{
+    height: 10vh;
+    width: 96%;
+    border: 2px solid #9e9e9e;
+    margin-bottom: 0.5vh;
+    margin-top: 0.5vh;
+    font-size: 5vh;
+    color: white;
+    cursor: pointer ;
+}
+
+button{
+    color: white;
+    background-color:#101336 ;
+    font-size: 1.5em;
 }
