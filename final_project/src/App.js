@@ -11,6 +11,7 @@ import { About } from './components/About';
 import { Contact } from './components/Contact';
 import { AddList } from './components/AddList';
 import { ModifyList } from './components/ModifyList';
+import { Products } from './components/Products';
 
 export default class App extends Component {
     constructor() {
@@ -168,6 +169,21 @@ export default class App extends Component {
                                 path={'/modify'}
                                 render={(props) => (
                                     <ModifyList
+                                        {...props}
+                                        email={this.state.email}
+                                        loggedInStatus={
+                                            this.state.loggedInStatus
+                                        }
+                                        validateLogout={this.validateLogout}
+                                    />
+                                )}
+                            />
+                        )}
+                        {this.state.loggedInStatus === 'LOGGED_IN' && (
+                            <Route
+                                path={'/products'}
+                                render={(props) => (
+                                    <Products
                                         {...props}
                                         email={this.state.email}
                                         loggedInStatus={

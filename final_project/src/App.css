@@ -132,6 +132,19 @@ input {
     overflow-x: hidden;
 }
 
+.boxProduct {
+    width: 700px;
+    height: 70vh;
+    margin: 5vh auto;
+    box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
+    text-align: center;
+    font-size: 18px;
+    border: 3px solid white;
+    background: rgba(37, 22, 92, 0.7);
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
 a {
     color: rgb(255, 255, 0)
 }
@@ -153,11 +166,30 @@ a {
     margin: auto;
 }
 
+
+.grid-containerProduct {
+    display: grid;
+    grid-template-rows: 70px;
+    padding: 5px;
+    grid-gap: 50px 50px;
+    margin: auto;
+}
+
 .grid-item {
     border: 1px solid #9e9e9e;
     font-size: 16px;
     text-align: center;
     color: white;
+    text-transform: capitalize;
+
+}
+
+.grid-itemProduct {
+    border: 1px solid #9e9e9e;
+    font-size: 25px;
+    text-align: center;
+    color: white;
+    text-transform: capitalize;
 
 }
 #parentGrid{
@@ -218,5 +250,7 @@ a {
 }
 
 button{
-    color: black;
+    color: white;
+    background-color:#101336 ;
+    font-size: 1.5em;
 }

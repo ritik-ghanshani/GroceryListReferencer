@@ -44,7 +44,10 @@ export class NavBar extends Component {
                         >
                             Home
                         </Nav.Link>
-                        <Nav.Link className="d-inline p-2">Products</Nav.Link>
+                        <Nav.Link 
+                            {...this.props}
+                            className="d-inline p-2"
+                            href="/products">Products</Nav.Link>
                         <Nav.Link
                             {...this.props}
                             className="d-inline p-2"
