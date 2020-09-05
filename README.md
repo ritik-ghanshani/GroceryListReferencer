@@ -37,7 +37,10 @@ Step 1 : Clone the repository using git to the computer.
 
 Step 2 : run "npm i" in GroceryListReferencer/final_project/functions folder and 
          GroceryListReferencer/final_project folder.
+         
+Step 3 : Paste ".env.json" in the GroceryListReferencer/final_project folder as it contains
+         the API Keys and Firebase configurations. 
 
-Step 3 : run "npm run dev" in GroceryListReferencer/final_project folder. 
+Step 4 : run "npm run dev" in GroceryListReferencer/final_project folder. 
 
-Step 4 : The application should open in the default browser. 
+Step 5 : The application should open in the default browser. 
