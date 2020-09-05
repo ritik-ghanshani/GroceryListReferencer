@@ -13,19 +13,18 @@ const app = express();
 //const cors = require('cors');
 
 const firebase = require('firebase');
-const port = 3000;
-const hostname = 'localhost';
+const firebaseEnvFile = require('../.env.json');
 app.use(express.json());
 
 const config = {
-    apiKey: 'AIzaSyD1KuT744S0uB27hGWm35J638_-O5fYW08',
-    authDomain: 'fir-9fcf5.firebaseapp.com',
-    databaseURL: 'https://fir-9fcf5.firebaseio.com/',
-    projectId: 'fir-9fcf5',
-    storageBucket: 'fir-9fcf5.appspot.com',
-    messagingSenderId: '935434602441',
-    appId: '1:935434602441:web:a57456a42b9237ee600a18',
-    measurementId: 'G-G0QD9N03RC',
+    apiKey: firebaseEnvFile['API_KEY'],
+    authDomain: firebaseEnvFile['AUTH_DOMAIN'],
+    databaseURL: firebaseEnvFile['DATABASE_URL'],
+    projectId: firebaseEnvFile['PROJECT_ID'],
+    storageBucket: firebaseEnvFile['STORAGE_BUCKET'],
+    messagingSenderId: firebaseEnvFile['MESSAGING_SENDER_ID'],
+    appId: firebaseEnvFile['APP_ID'],
+    measurementId: firebaseEnvFile['MEASUREMENT_ID'],
 };
 
 firebase.initializeApp(config);
@@ -136,7 +135,7 @@ app.get('/logged_in', (req, res) => {
     let email = req.query.email;
     let currentUser = firebase.auth().currentUser;
     if (currentUser) {
-        let email = currentUser.email;
+        email = currentUser.email;
         email = email.split('.')[0];
         console.log('current user is:', email);
         res.json({ logged_in: true, email });
@@ -290,13 +289,6 @@ app.post('/createGroceryList', (req, res) => {
     });
 });
 
-function checkParameter(param, paramString, res) {
-    if (!param || Object.keys(param).length === 0) {
-        console.log('No ' + paramString + ' provided');
-        res.status(400).json({ error: `No ${paramString} provided` });
-        return false;
-    } else return true;
-}
 //
 // app.get("/checkAvail?user=xxx&groceryList=yyy"
 // return json object {product:[ true/false, numAvailableInGroceryStore]} based on availability
@@ -335,11 +327,13 @@ app.get('/checkAvail', (req, res) => {
                         ) {
                             availGroceryItems[groceryItem] = [
                                 false,
-                                groceryListContents[groceryItem] -
-                                    groceryStoreContents[groceryItem],
+                                groceryStoreContents[groceryItem],
                             ];
                         } else {
-                            availGroceryItems[groceryItem] = [true, 0];
+                            availGroceryItems[groceryItem] = [
+                                true,
+                                groceryStoreContents[groceryItem],
+                            ];
                         }
                     }
                     return res.json(availGroceryItems);
@@ -357,7 +351,7 @@ app.get('/checkAvail', (req, res) => {
         }
     });
 });
-//
+
 // app.delete("/deleteList?user=xxx&groceryList=yyy"
 // send status back
 // PROBLEM: IF A USER HAS 1 GROCERY LIST, THE USER WILL BE DELETED AS WELL
@@ -417,6 +411,45 @@ app.delete('/deleteList', (req, res) => {
 //
 // use date stamp to keep track of grocery list
 
+app.put('/updateList', (req, res) => {
+    let username = req.query.user;
+    let groceryListName = req.query.groceryList;
+    let groceryListContents = req.body;
+    let listOfParams = [username, groceryListName, groceryListContents];
+    let listOfParamsString = [
+        'User Name',
+        'Grocery List Name',
+        'Grocery List Contents',
+    ];
+    for (let i = 0; i < listOfParams.length; i++) {
+        if (!checkParameter(listOfParams[i], listOfParamsString[i], res))
+            return;
+    }
+
+    let userRef = firebase.database().ref('users');
+    userRef.once('value', (snapshot) => {
+        //checks user exists
+        if (snapshot.child(username).exists()) {
+            let groceryListNameRef = userRef
+                .child(username)
+                .child(groceryListName);
+
+            groceryListNameRef.update(groceryListContents, (error) => {
+                if (error) {
+                    res.status(500).json({
+                        error: 'Unknown Internal Server Error',
+                    });
+                } else {
+                    console.log(groceryListName + ' was updated!');
+                    res.send();
+                }
+            });
+        } else {
+            res.status(501).json({ error: 'User does not exist' });
+        }
+    });
+});
+
 // app.get("/getGroceryItems")
 // send back all items in grocery store
 app.get('/getGroceryItems', function (req, res) {
@@ -430,10 +463,12 @@ app.get('/getGroceryItems', function (req, res) {
     });
 });
 
-/*
-app.listen(port, hostname, () => {
-    console.log(`Listening at: http://${hostname}:${port}`);
-});
-*/
+function checkParameter(param, paramString, res) {
+    if (!param || Object.keys(param).length === 0) {
+        console.log('No ' + paramString + ' provided');
+        res.status(400).json({ error: `No ${paramString} provided` });
+        return false;
+    } else return true;
+}
 
 exports.app = functions.https.onRequest(app);

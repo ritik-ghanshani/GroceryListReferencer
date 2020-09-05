@@ -82,7 +82,7 @@ export class NavBar extends Component {
                             <Dropdown.Item href="/addlist">
                                 Add List
                             </Dropdown.Item>
-                            <Dropdown.Item>View Lists</Dropdown.Item>
+                            <Dropdown.Item href="/home">View Lists</Dropdown.Item>
                             <Dropdown.Item onClick={this.validateLogoutClick}>
                                 Logout
                             </Dropdown.Item>
