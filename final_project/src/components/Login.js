@@ -37,7 +37,7 @@ export class Login extends Component {
                 }
             })
             .catch((error) => {
-                console.log(error);
+                console.log("abcd",error);
                 this.setState({ loginErrors: error.response.data });
             });
         event.preventDefault();

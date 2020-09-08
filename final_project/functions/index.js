@@ -9,157 +9,23 @@ const functions = require('firebase-functions');
 // });
 
 const express = require('express');
+const cors = require('cors');
+
 const app = express();
-//const cors = require('cors');
+app.use(cors({ origin: true }));
+const auth = require('./auth');
 
 const firebase = require('firebase');
-const firebaseEnvFile = require('../.env.json');
+const firebaseEnvFile = require('./.env.json');
+
 app.use(express.json());
 
-const config = {
-    apiKey: firebaseEnvFile['API_KEY'],
-    authDomain: firebaseEnvFile['AUTH_DOMAIN'],
-    databaseURL: firebaseEnvFile['DATABASE_URL'],
-    projectId: firebaseEnvFile['PROJECT_ID'],
-    storageBucket: firebaseEnvFile['STORAGE_BUCKET'],
-    messagingSenderId: firebaseEnvFile['MESSAGING_SENDER_ID'],
-    appId: firebaseEnvFile['APP_ID'],
-    measurementId: firebaseEnvFile['MEASUREMENT_ID'],
-};
-
-firebase.initializeApp(config);
 // all will return json objects
 // authentication? extra, possible at the end
 // Normal JSON Object =  json object client sends server is { product : quantity} ({key:value})
 // node modules crypto to create unique ids
-// ROUTE: /newUser?user=xxx
+/// ROUTE: /newUser?user=xxx
 
-app.post('/register', (req, res) => {
-    const email = req.body.user.email;
-    const password = req.body.user.password;
-    const passwordConfirmation = req.body.user['password_confirmation'];
-    let alreadyExists = false;
-    if (!email || !password) {
-        return res.status(400).send('No Email or Password Provided');
-    }
-    if (password !== passwordConfirmation) {
-        return res.status(400).send('Password Does Not Match');
-    }
-    if (email.split('.').length > 2) {
-        return res.status(400).send('Email has more than one period');
-    }
-    firebase
-        .auth()
-        .createUserWithEmailAndPassword(email, password)
-        .then(() => {
-            let emailParsed = email.split('.')[0];
-            let userRef = firebase.database().ref('users/' + emailParsed);
-            userRef.transaction(
-                (currentData) => {
-                    if (currentData == null) {
-                        //return { "logged_in": false, "lists": "placeHolderGroceryList" };
-                        return 'placeHolderGroceryList';
-                    } else {
-                        alreadyExists = true;
-                    }
-                },
-                (error) => {
-                    if (error) {
-                        return res.status(500).send(error.message);
-                    }
-                }
-            );
-
-            console.log(emailParsed);
-            if (alreadyExists) {
-                return res
-                    .status(401)
-                    .send('Email Account already exists in database!');
-            }
-            res.json({ status: 'created' });
-        })
-        .then(() => {
-            let currentUser = firebase.auth().currentUser;
-            firebase
-                .auth()
-                .signOut()
-                .then(() => {
-                    console.log(currentUser.email, 'has been signed out');
-                });
-        })
-        .catch((error) => {
-            return res.status(501).send(error.message);
-        });
-});
-
-app.post('/userSubmit', (req, res) => {
-    const email = req.body.user.email;
-    const password = req.body.user.password;
-    if (!email || !password) {
-        return res.status(400).send('No Email or Password Provided');
-    }
-    firebase
-        .auth()
-        .signInWithEmailAndPassword(email, password)
-        .then(() => {
-            let email = firebase.auth().currentUser;
-            res.json({ logged_in: true, email });
-        })
-        .catch((error) => {
-            res.status(401).send(error.message);
-        });
-});
-
-app.post('/passwordReset', (req, res) => {
-    const email = req.body.user.email;
-    firebase
-        .auth()
-        .sendPasswordResetEmail(email)
-        .then(() => {
-            res.json({ reset: true });
-        })
-        .catch((error) => {
-            res.status(401).send(error.message);
-        });
-});
-
-firebase.auth().onAuthStateChanged((firebaseUser) => {
-    if (firebaseUser) {
-        console.log(firebaseUser.email, 'is user logged in ');
-    } else {
-        console.log('not logged in');
-    }
-});
-
-app.get('/logged_in', (req, res) => {
-    let email = req.query.email;
-    let currentUser = firebase.auth().currentUser;
-    if (currentUser) {
-        email = currentUser.email;
-        email = email.split('.')[0];
-        console.log('current user is:', email);
-        res.json({ logged_in: true, email });
-    } else {
-        console.log('no user is logged in');
-        res.json({ logged_in: false, email });
-    }
-});
-
-app.delete('/logout', (req, res) => {
-    let currentUser = firebase.auth().currentUser;
-    if (currentUser) {
-        firebase
-            .auth()
-            .signOut()
-            .then(() => {
-                console.log(currentUser.email, 'has been signed out');
-                res.send();
-            });
-    } else {
-        console.log('no user needs to be logged out');
-        res.status(400).send();
-    }
-});
 //
 // app.get("/getUserLists?user=xxx", function(req,res) {
 // return stalet tus
@@ -258,7 +124,7 @@ app.post('/createGroceryList', (req, res) => {
 
             groceryListNameRef.transaction(
                 (currentData) => {
-                    if (currentData == null) {
+                    if (!currentData) {
                         return groceryListContents;
                     } else {
                         //make sure that new grocery list isn't overwriting old grocery list
@@ -390,12 +256,18 @@ app.delete('/deleteList', (req, res) => {
             .remove()
             .then(() => {
                 console.log('Sucessfully removed');
-                userNameRef.once('value').then((snapshot) => {
-                    if (!snapshot.val())
-                        //this feels really hacky, maybe Fee can come up with a better way
-                        userNameRef.set('PlaceHolderList');
-                });
+                userNameRef
+                    .once('value')
+                    .then((snapshot) => {
+                        if (!snapshot.val()) userNameRef.set('PlaceHolderList');
+                        return;
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        return;
+                    });
                 res.send();
+                return;
             })
             .catch((error) => {
                 console.log('Remove failed: ' + error.message);
@@ -471,4 +343,5 @@ function checkParameter(param, paramString, res) {
     } else return true;
 }
 
-exports.app = functions.https.onRequest(app);
+exports.server = functions.https.onRequest(app);
+exports.auth = auth.auth;
